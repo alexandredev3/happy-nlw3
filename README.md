@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./github/logo.png" />
+  <img width="80px" src="./.github/logo.png" />
   <br />
   <a href="https://www.linkedin.com/in/alexandre-costa-401699199">
     <img alt="Linkedin" src="https://img.shields.io/badge/-Alexandre%20Costa-29B6D1?label=Linkedin&logo=linkedin&style=flat">
@@ -7,7 +7,6 @@
   <a href="./LICENSE.txt">
     <img alt="GitHub license" src="https://img.shields.io/github/license/alexandredev3/happy-nlw3?logo=mint&style=flat">
   </a>
-  <br />
   <a href="https://github.com/alexandredev3/proffy/issues">
     <img alt="GitHub issues" src="https://img.shields.io/github/issues/alexandredev3/happy-nlw3?color=29B6D1&style=flat-square">
   </a>

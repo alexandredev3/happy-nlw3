@@ -1,0 +1,18 @@
+{
+  "type": "",
+  "host": "",
+  "port": "",
+  "username": "",
+  "password": "",
+  "database": "",
+  "logging": true,
+  "migrations": [
+    "./src/database/migrations/*.ts"
+  ],
+  "entities": [
+    "./src/app/models/*.ts"
+  ],
+  "cli": {
+    "migrationsDir":"./src/database/migrations"
+  }
+}

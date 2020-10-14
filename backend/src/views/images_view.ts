@@ -11,7 +11,7 @@ export default {
     // este metodo vai pegar o orfanato e retornar ele para o meu frontend consumir.
     return {
       id,
-      url: `http://localhost:3333/uploads/${path}`
+      url: `${process.env.APP_URL}/uploads/${path}`
     }
   },
 

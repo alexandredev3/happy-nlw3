@@ -2,6 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { join } from 'path';
 import cors from 'cors';
+import 'dotenv/config'
 
 // precisamos chamar o arquivo connection aqui no nosso app.
 import './database/connection';

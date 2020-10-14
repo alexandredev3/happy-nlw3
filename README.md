@@ -18,7 +18,6 @@
   </a>
 </h1>
 <p align="center">Visite orfanatos e mude o diade muitas crianças. feito na Next Level Week #3 @Rocketseat </p>
-<small>O projeto NLW#3, contruido</small>
 
 ## 📍 Tabela de Conteúdo
 - [Layout](#layout)

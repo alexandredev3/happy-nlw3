@@ -9,50 +9,6 @@ export const PageOrphanage = styled.div`
   min-height: 100vh;
 `;
 
-export const Aside = styled.aside`
-  position: fixed;
-  height: 100%;
-  padding: 32px 24px;
-  background: linear-gradient(329.54deg, #15B6D6 0%, #15D6D6 100%);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  > img {
-    width: 48px;
-  }
-`;
-
-export const Footer = styled.footer`
-  > a, button {
-    width: 48px;
-    height: 48px;
-
-    border: 0;
-
-    background: #12AFCB;
-    border-radius: 16px;
-
-    cursor: pointer;
-
-    transition: background-color 0.2s;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-      background: #17D6EB;
-    }
-  }
-`;
-
-export const Button = styled.button`
-
-`;
-
 export const Main = styled.main`
   flex: 1;
 `;
@@ -191,6 +147,12 @@ export const OpenOnWeekends = styled.div`
   background: linear-gradient(154.16deg, #EDFFF6 7.85%, #FFFFFF 91.03%);
   border: 1px solid #A1E9C5;
   color: #37C77F;
+`;
+
+export const DontOpenOnWeekends = styled.div`
+  background: linear-gradient(154.16deg, #FDF8F5 7.85%, #FFFFFF 91.03%);
+  border: 1px solid #FFBCD4;
+  color: #FF6690;
 `;
 
 export const ContactButton = styled.button`

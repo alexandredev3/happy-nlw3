@@ -8,46 +8,6 @@ export const PageCreateOrphanage = styled.div`
   display: flex;
 `;
 
-export const Aside = styled.aside`
-  position: fixed;
-  height: 100%;
-  padding: 32px 24px;
-  background: linear-gradient(329.54deg, #15B6D6 0%, #15D6D6 100%);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  > img {
-    width: 48px;
-  }
-`;
-
-export const Footer = styled.footer`
-  > a, button {
-    width: 48px;
-    height: 48px;
-
-    border: 0;
-
-    background: #12AFCB;
-    border-radius: 16px;
-
-    cursor: pointer;
-
-    transition: background-color 0.2s;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-      background: #17D6EB;
-    }
-  }
-`;
-
 export const Main = styled.main`
   flex: 1;
 `;
@@ -63,6 +23,13 @@ export const Form = styled.form`
   padding: 64px 80px;
 
   overflow: hidden;
+
+  .leaflet-container {
+    margin-bottom: 40px;
+    border: 1px solid #D3E2E5;
+
+    border-radius: 20px;
+  }
 `;
 
 export const Fieldset = styled.fieldset`
@@ -89,6 +56,10 @@ export const Legend = styled.legend`
 export const InputBlock = styled.div`
   & + & {
     margin-top: 24px;
+  }
+
+  input[type=file] {
+    display: none;
   }
 
   > input {
@@ -128,31 +99,34 @@ export const Label = styled.label`
   }
 `;
 
-export const UploadedImage = styled.div`
+export const ImagesContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 16px;
 
+  > img {
+    width: 100%;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
 `;
 
-export const NewImageButton = styled.button`
-  width: 100%;
-  height: 64px;
+export const NewImageButton = styled.label`
+  height: 96px;
   background: #F5F8FA;
   border: 1px dashed #96D2F0;
   border-radius: 20px;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ButtonSelect = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-
-  &:first-child {
-    border-radius: 20px 0px 0px 20px;
-  }
-
-  &:last-child {
-    border-radius: 0 20px 20px 0;
-    border-left: 0;
-  }
 `;
 
 export const Button = styled.button<ButtonProps>`
@@ -168,6 +142,16 @@ export const Button = styled.button<ButtonProps>`
       border: 1px solid #A1E9C5;
       color: #37C77F; 
     `
+  }
+
+  
+  &:first-of-type {
+    border-radius: 20px 0px 0px 20px;
+  }
+
+  &:last-of-type {
+    border-radius: 0 20px 20px 0;
+    border-left: 0;
   }
 `;
 

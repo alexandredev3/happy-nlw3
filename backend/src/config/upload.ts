@@ -12,5 +12,8 @@ export default {
       // como isso e improvavel de dá algum erro, colocamos um valor nulo. 
       cb(null, fileName);
     }
-  })
+  }),
+  limits: {
+    fileSize: 4 * 1024 * 1024
+  }
 };

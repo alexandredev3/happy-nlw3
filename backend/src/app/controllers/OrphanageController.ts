@@ -6,6 +6,19 @@ import * as Yup from 'yup';
 import Orphanage from '../models/Orphanage';
 import orphanageView from '../../views/orphanages_view';
 
+interface FinalData {
+  name: string;
+  latitude: number;
+  longitude: number;
+  about: string;
+  instructions: string;
+  opening_hours: string;
+  open_on_weekends: boolean;
+  images: Array<{
+    path: string;
+  }>
+}
+
 class OrphanageController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
@@ -81,12 +94,15 @@ class OrphanageController {
       )
     });
 
+    // esse cast converte o campo para o tipo que você colocou no yup.
+    const finalData = schema.cast(data) as FinalData
+
     await schema.validate(data, {
       abortEarly: false // esta opção vai fazer o yup mostrar todos os erros de validação.
     });
 
     // aqui ele deixa o orfanato pre criado, ele não cria no banco de dados direto.
-    const orphanage = orphanagesRepository.create(data);
+    const orphanage = orphanagesRepository.create(finalData);
   
     // aqui ele vai salvar no banco de dados
     // passa o orfanato que criamos como parametro do metodo save.

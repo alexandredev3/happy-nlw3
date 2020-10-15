@@ -1,89 +1,201 @@
-import React from "react";
+import React, { useCallback, useState, useRef, FormEvent, ChangeEvent } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
-import L from 'leaflet';
+import { FiPlus } from "react-icons/fi";
+import { LeafletMouseEvent } from 'leaflet';
 import { useHistory } from "react-router-dom";
 
-import { FiArrowLeft, FiPlus } from "react-icons/fi";
+import mapIcon from '../utils/mapIcon';
 
-import mapMarkerImg from '../assets/images/map-marker.svg';
+import Sidebar from "../components/Sidebar";
+
+import api from "../services/api";
 
 import { 
   PageCreateOrphanage,
-  Aside,
-  Footer,
   Main,
   Form,
   Fieldset,
   Legend,
   InputBlock,
   Label,
-  UploadedImage,
+  ImagesContainer,
   NewImageButton,
   ButtonSelect,
   Button,
   ConfirmButton 
 } from '../styles/screens/create-orphanage';
 
-const happyMapIcon = L.icon({
-  iconUrl: mapMarkerImg,
-
-  iconSize: [58, 68],
-  iconAnchor: [29, 68],
-  popupAnchor: [0, -60]
-})
-
 export default function CreateOrphanage() {
-  const { goBack } = useHistory();
+  const [positionMarker, setPositionMarker] = useState({ 
+    latitude: 0, longitude: 0 
+  });
+  const [open_on_weekends, setOpenOnWeekends] = useState(true);
+  const [images, setImages] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const aboutInputRef = useRef<HTMLTextAreaElement>(null);
+  const instructionsInputRef = useRef<HTMLTextAreaElement>(null);
+  const openingHoursInputRef = useRef<HTMLInputElement>(null);
+
+  const history = useHistory();
+
+  const handleMapClick = useCallback((event: LeafletMouseEvent) => {
+    const { lat, lng } = event.latlng
+
+    setPositionMarker({
+      latitude: lat,
+      longitude: lng
+    })
+  }, [positionMarker]);
+
+  const handleSelectImages = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) {
+      return;
+    }
+
+    const selectedImages = Array.from(event.target.files);
+
+    setImages(selectedImages);
+
+    const selectedImagesPreview = selectedImages.map((image) => {
+      return URL.createObjectURL(image);
+    });
+
+    setPreviewImages(selectedImagesPreview);
+  }, [images, previewImages]);
+
+  const handleSubmit = useCallback(async (event: FormEvent) => {
+    event?.preventDefault();
+
+    const name = nameInputRef.current?.value;
+    const about = aboutInputRef.current?.value;
+    const instructions = instructionsInputRef.current?.value;
+    const opening_hours = openingHoursInputRef.current?.value;
+
+    const { latitude, longitude } = positionMarker;
+
+    if (!name || !about || !instructions || !opening_hours) {
+      return alert("Todos os campos são obrigatorios");
+    }
+
+    // FormData = MultiPart Form
+    const data = new FormData();
+
+    data.append('name', name);
+    data.append('about', about);
+    data.append('instructions', instructions);
+    data.append('opening_hours', opening_hours);
+
+    data.append('latitude', String(latitude));
+    data.append('longitude', String(longitude));
+
+    data.append('open_on_weekends', String(open_on_weekends));
+
+    images.forEach((image) => {
+      data.append('images', image)
+    });
+
+    console.log(data)
+
+    try {
+      const { push } = history;
+
+      await api.post('/orphanages', data);
+
+      alert("Cadastro realizado com sucesso!");
+      push('/app');
+    } catch(err) {
+      alert("Ocorreu um erro inesperado, Tente novamente mais tarde...");
+      console.log(err);
+    }
+
+  }, [
+    nameInputRef, 
+    aboutInputRef, 
+    instructionsInputRef, 
+    openingHoursInputRef, 
+    positionMarker,
+    open_on_weekends,
+    images
+  ]);
 
   return (
     <PageCreateOrphanage>
-      <Aside>
-        <img src={mapMarkerImg} alt="Happy" />
-
-        <Footer>
-          <button type="button" onClick={goBack}>
-            <FiArrowLeft size={24} color="#FFF" />
-          </button>
-        </Footer>
-      </Aside>
+      <Sidebar />
 
       <Main>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Fieldset>
             <Legend>Dados</Legend>
 
             <Map 
-              center={[-27.2092052,-49.6401092]} 
+              center={[-16.221166, -47.934621]}
               style={{ width: '100%', height: 280 }}
               zoom={15}
+              onclick={handleMapClick}
             >
               <TileLayer 
                 url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
               />
 
-              <Marker interactive={false} icon={happyMapIcon} position={[-27.2092052,-49.6401092]} />
+              {
+                positionMarker.latitude !== 0 && (
+                  <Marker 
+                    interactive={false} 
+                    icon={mapIcon} 
+                    position={[positionMarker.latitude, positionMarker.longitude]} 
+                  />
+                )
+              }
             </Map>
 
             <InputBlock>
               <Label htmlFor="name">Nome</Label>
-              <input id="name" />
+              <input
+                ref={nameInputRef} 
+                id="name" 
+                name="name"
+              />
             </InputBlock>
 
             <InputBlock>
               <Label htmlFor="about">Sobre <span>Máximo de 300 caracteres</span></Label>
-              <textarea id="name" maxLength={300} />
+              <textarea 
+                id="name" 
+                name="about"
+                maxLength={300}
+                ref={aboutInputRef} 
+              />
             </InputBlock>
 
             <InputBlock>
               <Label htmlFor="images">Fotos</Label>
 
-              <UploadedImage>
+              <ImagesContainer>
+                {
+                  previewImages.map((imageUrl) => {
+                    return (
+                      <img
+                        key={imageUrl}
+                        src={imageUrl}
+                        alt="imagens selecionadas"
+                      />
+                    )
+                  })
+                }
 
-              </UploadedImage>
+                <NewImageButton htmlFor="images[]">
+                  <FiPlus size={24} color="#15b6d6" />
+                </NewImageButton>
+              </ImagesContainer>
 
-              <NewImageButton>
-                <FiPlus size={24} color="#15b6d6" />
-              </NewImageButton>
+              <input 
+                multiple 
+                type="file" 
+                id="images[]"
+                onChange={handleSelectImages}
+              />
             </InputBlock>
           </Fieldset>
 
@@ -92,20 +204,41 @@ export default function CreateOrphanage() {
 
             <InputBlock>
               <Label htmlFor="instructions">Instruções</Label>
-              <textarea id="instructions" />
+              <textarea 
+                ref={instructionsInputRef} 
+                name="instructions" 
+                id="instructions" 
+              />
             </InputBlock>
 
             <InputBlock>
-              <Label htmlFor="opening_hours">Nome</Label>
-              <input id="opening_hours" />
+              <Label htmlFor="opening_hours">Horário de funcionamento</Label>
+              <input 
+                ref={openingHoursInputRef} 
+                name="opening_hours" 
+                id="opening_hours"
+              />
             </InputBlock>
 
             <InputBlock>
               <Label htmlFor="open_on_weekends">Atende fim de semana</Label>
 
               <ButtonSelect>
-                <Button type="button" active>Sim</Button>
-                <Button type="button">Não</Button>
+                <Button 
+                  type="button"
+                  active={open_on_weekends ? true : false}
+                  onClick={() => setOpenOnWeekends(true)}
+                >
+                  Sim
+                </Button>
+
+                <Button 
+                  active={!open_on_weekends ? true : false}
+                  onClick={() => setOpenOnWeekends(false)}
+                  type="button"
+                >
+                  Não
+                </Button>
               </ButtonSelect>
             </InputBlock>
           </Fieldset>

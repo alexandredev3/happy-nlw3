@@ -45,19 +45,13 @@ export const Footer = styled.View`
   /* shadow-color: ; */
   /* shadow-offset: ; */
   /* shadow-radius: ; */
+
+  button: {
+
+  }
 `;
 
 export const FooterText = styled.Text`
   font-family: 'Nunito_700Bold';
   color: #8fa7b3;
-`;
-
-export const CreateOrphanageButton = styled.TouchableOpacity`
-  width: 56px;
-  height: 56px;
-  background: #15c3d6;
-  border-radius: 20px;
-
-  justify-content: center;
-  align-items: center;
 `;

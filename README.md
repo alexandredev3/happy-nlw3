@@ -19,7 +19,7 @@
 </h1>
 <p align="center">
   <a href="#paperclip-links">Links</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-description">Descrição</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#clipboard-descrição">Descrição</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-techs">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-features">Funcionalidades</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-license">Licença</a>
@@ -27,9 +27,14 @@
 
 <img src="./.github/happy-app.png" />
 
+## :clipboard: Descrição
+Na Next Level Week #3 by @Rocketseat, criamos esta aplicação chamada Happy, que conecta as pessoas a casas de acolhimento institucional para fazer o dia de muitas crianças mais feliz. Durante essa semana criamos o Backend, Frontend e o app Mobile, foi uma semana intensa com muito apredizado e mão no código, para alcançar o próximo nível :rocket:
+
 ## :paperclip: Links
 Nos links abaixo você encontra o Layout da versão Web e a versão Mobile, também um link para o google drive da Worspace do Insomnia, caso você queira testar a API.
 
 - [Layout Web](https://www.figma.com/file/mDEbnoojksG4w8sOxmudh3/Happy-Web?node-id=0%3A1)
 - [Layout Mobile](https://www.figma.com/file/X27FfVxAgy9f5IFa7ONlph/Happy-Mobile?node-id=0%3A1)
 - [Workspace Insomnia](https://drive.google.com/file/d/1wTJnyg-1pjkz-RJUTS4ioyUfZHGZqNdP/view?usp=sharing)
+
+## Tecnologias

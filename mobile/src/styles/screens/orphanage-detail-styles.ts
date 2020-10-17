@@ -1,6 +1,12 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Container = styled.ScrollView`
   flex: 1px;
 `;
@@ -40,7 +46,7 @@ export const MapContainer = styled.View`
   background-color: #E6F7FB;
 `;
 
-export const RoutesContainer = styled.View`
+export const RoutesContainer = styled.TouchableOpacity`
   padding: 16px;
   align-items: center;
   justify-content: center;
@@ -98,6 +104,25 @@ export const ScheduleTextGreen = styled.Text`
   line-height: 24px;
   margin-top: 20px;
   color: #37C77F;
+`;
+
+
+export const ScheduleItemRed = styled.View`
+  width: 48%;
+  padding: 20px;
+
+  background-color: #FEF6F9;
+  border-width: 1px;
+  border-color: #FFBCD4;
+  border-radius: 20px;
+`;
+
+export const ScheduleTextRed = styled.Text`
+  font-family: 'Nunito_600SemiBold';
+  font-size: 16px;
+  line-height: 24px;
+  margin-top: 20px;
+  color: #FF669D;
 `;
 
 

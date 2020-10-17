@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
+
+import api from '../services/api';
 
 import mapMarker from '../assets/images/marker.png';
 
@@ -15,14 +17,37 @@ import {
   FooterText
 } from '../styles/screens/orphanages-map-styles';
 
-export default function OrphanagesMap() {
-  const { navigate } = useNavigation()
+interface OrphanageItem {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
 
-  const handleNavigateToOrphanageDetails = useCallback(() => {
-    navigate('OrphanagesDetails');
+export default function OrphanagesMap() {
+  const [orphanages, setOrphanages] = useState<OrphanageItem[]>([]);
+  const { navigate } = useNavigation();
+  
+  useFocusEffect(() => {
+    api.get('/orphanages').then((response) => {
+      const data = response.data;
+
+      setOrphanages(data);
+    }).catch((err) => {
+      alert(err)
+    })
+  });
+  /**
+   * useFocusEffect: So vai disparar esse função quando a tela estiver em foco
+   * Se o usuario sair dessa tela e voltar, essa função será disparada.
+   */
+
+  const handleNavigateToOrphanageDetails = useCallback((id) => {
+    navigate('OrphanagesDetails', { id });
+    // dessa forma vamos ter acesso ao id do orfanto la na tela de Detalhes.
   }, [navigate]);
 
-  const handleNavigateToOrphanage = useCallback(() => {
+  const handleNavigateToCreateOrphanage = useCallback(() => {
     navigate('SelectMapPosition');
   }, [navigate]);
 
@@ -41,27 +66,34 @@ export default function OrphanagesMap() {
           longitudeDelta: 0.008 
         }}
       >
-        <Marker 
-          icon={mapMarker}
-          calloutAnchor={{
-            x: 2.8,
-            y: 0.9
-          }}
-          coordinate={{ // posição do marker
-            latitude: -16.2508371,
-            longitude: -47.9225178,
-          }}
-        >
-          <Callout tooltip onPress={handleNavigateToOrphanageDetails}>
-            <CalloutContainer>
-              <CalloutText>Lar das Meninas</CalloutText>
-            </CalloutContainer>
-          </Callout>
-        </Marker>
+        {
+          orphanages.map((orphanage) => {
+            return (
+              <Marker
+                key={orphanage.id}
+                icon={mapMarker}
+                calloutAnchor={{
+                  x: 2.8,
+                  y: 0.9
+                }}
+                coordinate={{ // posição do marker
+                  latitude: orphanage.latitude,
+                  longitude: orphanage.longitude,
+                }}
+              >
+                <Callout tooltip onPress={() => handleNavigateToOrphanageDetails(orphanage.id)}>
+                  <CalloutContainer>
+                    <CalloutText>{orphanage.name}</CalloutText>
+                  </CalloutContainer>
+                </Callout>
+              </Marker>
+            );
+          })
+        }
       </MapView>
 
       <Footer>
-        <FooterText>2 orfanatos encontrados</FooterText>
+        <FooterText>{orphanages.length} orfanatos encontrados</FooterText>
 
         <RectButton style={{
           width: 56,
@@ -71,7 +103,7 @@ export default function OrphanagesMap() {
 
           justifyContent: 'center',
           alignItems: 'center',
-        }} onPress={handleNavigateToOrphanage}>
+        }} onPress={handleNavigateToCreateOrphanage}>
           <Feather name="plus" size={20} color="#FFF" />
         </RectButton>
       </Footer>

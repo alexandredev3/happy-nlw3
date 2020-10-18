@@ -38,6 +38,7 @@ interface OrphanageDetailsRouteParams {
 interface OrphanageItem {
   id: number;
   name: string;
+  whatsapp: number;
   latitude: number;
   longitude: number;
   about: string;
@@ -73,6 +74,10 @@ function OrphanagesDetails() {
   const handleOpenGoogleMapsRoutes = useCallback(() => {
     Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${orphanage?.latitude},${orphanage?.longitude}`)
   }, [orphanage]);
+
+  const handleOpenWhatsapp = useCallback(() => {
+    Linking.openURL(`https://wa.me/${orphanage?.whatsapp}`);
+  }, [orphanage])
 
   if (!orphanage) {
     return (
@@ -112,8 +117,8 @@ function OrphanagesDetails() {
         <MapContainer>
           <MapView
             initialRegion={{
-              latitude: orphanage.latitude,
-              longitude: orphanage.longitude,
+              latitude: Number(orphanage.latitude),
+              longitude: Number(orphanage.longitude),
               latitudeDelta: 0.008,
               longitudeDelta: 0.008,
             }} 
@@ -129,8 +134,8 @@ function OrphanagesDetails() {
             <Marker 
               icon={mapMarkerImg}
               coordinate={{ 
-                latitude: orphanage.latitude,
-                longitude: orphanage.longitude
+                latitude: Number(orphanage.latitude),
+                longitude: Number(orphanage.longitude)
               }}
             />
           </MapView>
@@ -182,7 +187,7 @@ function OrphanagesDetails() {
           alignItems: 'center',
           height: 56,
           marginTop: 40,
-        }} onPress={() => {}}>
+        }} onPress={handleOpenWhatsapp}>
           <FontAwesome name="whatsapp" size={24} color="#FFF" />
           <ContactButtonText>Entrar em contato</ContactButtonText>
         </RectButton>

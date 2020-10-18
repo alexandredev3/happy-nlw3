@@ -155,7 +155,9 @@ export const DontOpenOnWeekends = styled.div`
   color: #FF6690;
 `;
 
-export const ContactButton = styled.button`
+export const ContactButton = styled.a`
+  text-decoration: none;
+
   margin-top: 64px;
 
   width: 100%;

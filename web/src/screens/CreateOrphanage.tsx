@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useRef, FormEvent, ChangeEvent } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiX } from "react-icons/fi";
 import { LeafletMouseEvent } from 'leaflet';
 import { useHistory } from "react-router-dom";
 
@@ -19,6 +19,7 @@ import {
   InputBlock,
   Label,
   ImagesContainer,
+  DeleteImageButton,
   NewImageButton,
   ButtonSelect,
   Button,
@@ -34,6 +35,7 @@ export default function CreateOrphanage() {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const whatsappInputRef = useRef<HTMLInputElement>(null);
   const aboutInputRef = useRef<HTMLTextAreaElement>(null);
   const instructionsInputRef = useRef<HTMLTextAreaElement>(null);
   const openingHoursInputRef = useRef<HTMLInputElement>(null);
@@ -54,6 +56,7 @@ export default function CreateOrphanage() {
       return;
     }
 
+    // transformando o event.target.files em um Array.
     const selectedImages = Array.from(event.target.files);
 
     setImages(selectedImages);
@@ -69,20 +72,22 @@ export default function CreateOrphanage() {
     event?.preventDefault();
 
     const name = nameInputRef.current?.value;
+    const whatsapp = whatsappInputRef.current?.value;
     const about = aboutInputRef.current?.value;
     const instructions = instructionsInputRef.current?.value;
     const opening_hours = openingHoursInputRef.current?.value;
 
     const { latitude, longitude } = positionMarker;
 
-    if (!name || !about || !instructions || !opening_hours) {
+    if (!name || !whatsapp || !about || !instructions || !opening_hours) {
       return alert("Todos os campos são obrigatorios");
     }
 
     // FormData = MultiPart Form
     const data = new FormData();
-
+    
     data.append('name', name);
+    data.append('whatsapp', whatsapp);
     data.append('about', about);
     data.append('instructions', instructions);
     data.append('opening_hours', opening_hours);
@@ -95,8 +100,6 @@ export default function CreateOrphanage() {
     images.forEach((image) => {
       data.append('images', image)
     });
-
-    console.log(data)
 
     try {
       const { push } = history;
@@ -170,21 +173,30 @@ export default function CreateOrphanage() {
             </InputBlock>
 
             <InputBlock>
+              <Label htmlFor="whatsapp">Número de Whatsapp</Label>
+              <input
+                ref={whatsappInputRef} 
+                id="whatsapp" 
+                name="whatsapp"
+              />
+            </InputBlock>
+
+            <InputBlock>
               <Label htmlFor="images">Fotos</Label>
 
               <ImagesContainer>
                 {
-                  previewImages.map((imageUrl) => {
+                  previewImages.map((imageUrl, index) => {
                     return (
                       <img
-                        key={imageUrl}
+                        key={imageUrl}  
                         src={imageUrl}
                         alt="imagens selecionadas"
+                        onClick={() => handleDeleteImages(index)}
                       />
                     )
                   })
                 }
-
                 <NewImageButton htmlFor="images[]">
                   <FiPlus size={24} color="#15b6d6" />
                 </NewImageButton>

@@ -110,6 +110,8 @@ export const ImagesContainer = styled.div`
     object-fit: cover;
     border-radius: 20px;
   }
+
+  position: relative;
 `;
 
 export const NewImageButton = styled.label`

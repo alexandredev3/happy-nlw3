@@ -151,7 +151,7 @@ export default function Orphanage() {
             <ContactButton 
               target="_blank" 
               rel="noopener noreferrer" 
-              href={`https://wa.me/${orphanage.whatsapp}`}
+              href={`https://api.whatsapp.com/send/?phone=${orphanage.whatsapp}`}
             >
               <FaWhatsapp size={20} color="#FFF" />
               Entrar em contato

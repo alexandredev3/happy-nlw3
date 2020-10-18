@@ -19,6 +19,7 @@ import {
   InputBlock,
   Label,
   ImagesContainer,
+  ImagesPreview,
   DeleteImageButton,
   NewImageButton,
   ButtonSelect,
@@ -67,6 +68,19 @@ export default function CreateOrphanage() {
 
     setPreviewImages(selectedImagesPreview);
   }, [images, previewImages]);
+
+  const handleDeleteImages = useCallback((index) => {
+    const deleteImage = previewImages.findIndex((_, imageIndex) => imageIndex === index);
+
+    if (deleteImage >= 0) {
+      const filteredImagesPreview = previewImages.filter((_, imageIndex) => imageIndex !== index);
+      const filteredImages = images.filter((_, imageIndex) => imageIndex !== index);
+
+      setPreviewImages(filteredImagesPreview);
+      setImages(filteredImages);
+    }
+
+  }, [previewImages, images]);
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event?.preventDefault();
@@ -188,15 +202,23 @@ export default function CreateOrphanage() {
                 {
                   previewImages.map((imageUrl, index) => {
                     return (
-                      <img
-                        key={imageUrl}  
-                        src={imageUrl}
-                        alt="imagens selecionadas"
-                        onClick={() => handleDeleteImages(index)}
-                      />
+                      <ImagesPreview
+                        key={imageUrl}
+                      >
+                        <img
+                          src={imageUrl}
+                        />
+                        <DeleteImageButton
+                            type="button"
+                            onClick={() => handleDeleteImages(index)}
+                          >
+                          <FiX size={24} color="#FF669D" />
+                        </DeleteImageButton>
+                      </ImagesPreview>
                     )
                   })
-                }
+                }     
+
                 <NewImageButton htmlFor="images[]">
                   <FiPlus size={24} color="#15b6d6" />
                 </NewImageButton>

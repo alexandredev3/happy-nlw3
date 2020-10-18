@@ -6,7 +6,8 @@ export default {
   renderOne(orphanage: Orphanage) {
     const { 
       id, 
-      name, 
+      name,
+      whatsapp,
       latitude, 
       longitude, 
       about, 
@@ -20,6 +21,7 @@ export default {
     return {
       id,
       name,
+      whatsapp,
       latitude,
       longitude,
       about,

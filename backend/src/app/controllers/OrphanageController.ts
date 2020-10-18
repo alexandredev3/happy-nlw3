@@ -8,6 +8,7 @@ import orphanageView from '../../views/orphanages_view';
 
 interface FinalData {
   name: string;
+  whatsapp: number;
   latitude: number;
   longitude: number;
   about: string;
@@ -47,6 +48,7 @@ class OrphanageController {
   async create(request: Request, response: Response) {
     const { 
       name,
+      whatsapp,
       latitude,
       longitude,
       about,
@@ -68,6 +70,7 @@ class OrphanageController {
 
     const data = {
       name,
+      whatsapp,
       latitude,
       longitude,
       about,
@@ -79,6 +82,7 @@ class OrphanageController {
 
     const schema = Yup.object().shape({
       name: Yup.string().required(),
+      whatsapp: Yup.number().required(),
       latitude: Yup.number().required(),
       longitude: Yup.number().required(),
       about: Yup.string().required().max(300),

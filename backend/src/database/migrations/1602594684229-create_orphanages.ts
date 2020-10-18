@@ -21,6 +21,10 @@ export class createOrphanages1602594684229 implements MigrationInterface {
           type: 'varchar' // string "curto"
         },
         {
+          name: 'whatsapp',
+          type: 'decimal'
+        },
+        {
           name: 'latitude',
           type: 'decimal',
           // scale: 10,  // quantos caracteres depois da virgula, (porque latitude tem no maximo 10 caracteres depois da virgula)

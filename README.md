@@ -4,7 +4,7 @@
   <a href="https://www.linkedin.com/in/alexandre-costa-401699199">
     <img alt="Linkedin" src="https://img.shields.io/badge/-Alexandre%20Costa-29B6D1?label=Linkedin&logo=linkedin&style=flat-square">
   </a>
-  <a href="./LICENSE.txt">
+  <a href="https://github.com/alexandredev3/happy-nlw3/blob/master/LICENSE.txt">
     <img alt="GitHub license" src="https://img.shields.io/github/license/alexandredev3/happy-nlw3?logo=mint&style=flat-square">
   </a>
   <a href="https://github.com/alexandredev3/proffy/issues">
@@ -115,7 +115,7 @@ yarn start
 ## :man: Autor
 
 <a href="https://github.com/alexandredev3/">
- <img src="https://avatars2.githubusercontent.com/u/61118233?s=460&u=6986cc74bed8eb5dee60c2211d9f1b0dd2d24009&v=4" width="70px;" alt=""/>
+ <img src="https://avatars0.githubusercontent.com/u/61118233?s=400&u=37870397a9363ce5e768975c05e95a5f5d323ca1&v=4" width="70px;" alt=""/>
  <br />
  <sub><b>Alexandre Costa</b></sub>
 </a>

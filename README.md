@@ -27,7 +27,7 @@
   <a href="#memo-Licença">Licença</a>
 </p>
 
-<img src="./.github/happy-app.png" />
+<img src="./.github/happy-app-map.png" />
 
 ## :page_facing_up: Descrição
 Na Next Level Week #3 by @Rocketseat, criamos esta aplicação chamada Happy, que conecta as pessoas a casas de acolhimento institucional para fazer o dia de muitas crianças mais feliz. Durante essa semana criamos o Backend, Frontend e o app Mobile, foi uma semana intensa com muito apredizado e mão no código, para alcançar o próximo nível :rocket:

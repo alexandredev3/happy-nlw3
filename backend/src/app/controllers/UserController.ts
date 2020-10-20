@@ -7,7 +7,7 @@ import User from '../models/User';
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { name, email, password } = request.body;
+    const { name, email, password, confirm_password } = request.body;
 
     const userRepository = getRepository(User)
 
@@ -18,6 +18,12 @@ class UserController {
     if (userExists) {
       return response.status(400).json({
         error: 'User already exists'
+      });
+    }
+
+    if (password !== confirm_password) {
+      return response.status(400).json({
+        error: 'Password does not match'
       })
     }
 

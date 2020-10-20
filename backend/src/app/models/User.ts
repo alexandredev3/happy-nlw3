@@ -24,4 +24,8 @@ export default class User {
       this.password_hash = await bcrypt.hash(this.password_hash, 8);
     }
   }
+
+  comparePassword(password: string) {
+    return bcrypt.compare(password, this.password_hash);
+  }
 }

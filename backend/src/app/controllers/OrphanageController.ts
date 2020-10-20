@@ -41,7 +41,7 @@ class OrphanageController {
     const orphanages = await orphanagesRepository.find({
       relations: ['images'] // ultilizamos isso quando queremos retorna uma tabela relacionada.
     });
-
+    
     return response.json(orphanageView.renderMany(orphanages));
   }
 

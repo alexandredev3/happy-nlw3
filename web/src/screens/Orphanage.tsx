@@ -3,6 +3,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { FiClock, FiInfo } from "react-icons/fi";
 import { Map, Marker, TileLayer } from "react-leaflet";
 import { useParams } from 'react-router-dom';
+import Image, { Shimmer, ImageProps } from 'react-shimmer';
 
 import Sidebar from "../components/Sidebar";
 
@@ -65,7 +66,15 @@ export default function Orphanage() {
   }, [activeImageIndex]);
 
   if (!orphanage) {
-    return <h2>Carregando...</h2>
+    return (
+      <div>
+
+        <Image
+          src="https://images.unsplash.com/photo-1593642532400-2682810df593?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+          fallback={<Shimmer width={800} height={600} />}
+        />
+      </div>
+    );
   }
 
   return (

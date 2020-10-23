@@ -35,7 +35,7 @@ class UserController {
 
     await userRepository.save(user);
 
-    return response.status(201).json(userView.render(user));
+    return response.status(204).send();
   }
 }
 

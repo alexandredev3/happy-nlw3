@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 // estamos pegando tudo que esta dentro do yup e colocando dentro de Yup, porque la não tem o export default.
 
 import Orphanage from '../models/Orphanage';
+import User from '../models/User';
+
 import orphanageView from '../../views/orphanages_view';
 
 interface FinalData {
@@ -39,7 +41,7 @@ class OrphanageController {
 
     // se quiser fazer algum tipo de condição, coloque dentro do find.
     const orphanages = await orphanagesRepository.find({
-      relations: ['images'] // ultilizamos isso quando queremos retorna uma tabela relacionada.
+      relations: ['images', 'users'] // ultilizamos isso quando queremos retorna uma tabela relacionada.
     });
     
     return response.json(orphanageView.renderMany(orphanages));
@@ -58,7 +60,7 @@ class OrphanageController {
     } = request.body;
   
     // colocamos o nosso model como parametro no getRepository, agora temos todos os metodos no orphanagesRepository
-    const orphanagesRepository = getRepository(Orphanage);
+    const orphanageRepository = getRepository(Orphanage);
   
     // estou forçando a tipagem do request.files, falando que ele e uma array de arquivos.
     // apenas um "hackizinho" quando for trabalhar com multiplos arquivos.
@@ -70,6 +72,7 @@ class OrphanageController {
 
     const data = {
       name,
+      user_id: request.userId,
       whatsapp,
       latitude,
       longitude,
@@ -106,12 +109,12 @@ class OrphanageController {
     });
 
     // aqui ele deixa o orfanato pre criado, ele não cria no banco de dados direto.
-    const orphanage = orphanagesRepository.create(finalData);
-  
+    const orphanage = orphanageRepository.create(finalData);
+
     // aqui ele vai salvar no banco de dados
     // passa o orfanato que criamos como parametro do metodo save.
-    await orphanagesRepository.save(orphanage);
-  
+    await orphanageRepository.save(orphanage);
+
     // status code 201 e quando alguma coisa foi criada.
     return response.status(201).json(orphanage);
   }

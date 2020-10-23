@@ -22,14 +22,14 @@ export default async (request: Request, response: Response, next: NextFunction) 
 
 
   try {
-    const decoded = jwt.verify(token, authConfig.secret) as Decoded
+    const decoded = jwt.verify(token, authConfig.secret) as Decoded;
 
-    request.userId = decoded.uid
+    request.userId = decoded.uid;
 
     return next();
   } catch(err) {
     return response.status(401).json({
-      error: 'token is invalid'
+      error: 'Token is invalid'
     })
   }
 }

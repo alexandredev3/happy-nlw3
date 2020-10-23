@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, RelationId, JoinTable, BaseEntity } from 'typeorm';
 // OneToMany: Relacionamento de um orfanato para varias imagens.
 
 import Image from './Image';
+import User from './User';
 
 @Entity('orphanages')
 export default class Orphanage {
@@ -10,6 +11,9 @@ export default class Orphanage {
 
   @Column()
   name: string;
+
+  @Column()
+  isPending: boolean;
 
   @Column()
   whatsapp: number;
@@ -31,6 +35,13 @@ export default class Orphanage {
 
   @Column()
   open_on_weekends: boolean;
+
+  @Column()
+  user_id: number;
+
+  @ManyToOne(() => User, user => user.orphanages)
+  @JoinColumn({ name: 'user_id' })
+  users: User;
 
   // precisamos fazer o relacionamento contrario.
   // image.orphanage e a coluna que tem la no model Image.

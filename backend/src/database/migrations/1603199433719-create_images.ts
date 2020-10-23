@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createImages1602624281324 implements MigrationInterface {
+export class createImages1603199433719 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
@@ -23,7 +23,7 @@ export class createImages1602624281324 implements MigrationInterface {
           type: 'integer'
         }
       ],
-      // agora vai nossa chaves estrageiras
+      // agora vai nossas chaves estrageiras
       foreignKeys: [
         {
           name: 'ImageOrphanage', // posso colocar o nome que quiser, para quando for preciso apagar fica mais facil encontrar.

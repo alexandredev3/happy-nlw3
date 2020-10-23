@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class createOrphanages1602594684229 implements MigrationInterface {
+export class createOrphanages1602624281324 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
@@ -17,12 +17,22 @@ export class createOrphanages1602594684229 implements MigrationInterface {
           generationStrategy: 'increment' // AutoIncrement
         },
         {
+          name: 'isPending',
+          type: 'boolean',
+          default: true,
+        },
+        {
+          name: 'user_id',
+          type: 'integer',
+          isNullable: false
+        },
+        {
           name: 'name',
           type: 'varchar' // string "curto"
         },
         {
           name: 'whatsapp',
-          type: 'decimal'
+          type: 'integer'
         },
         {
           name: 'latitude',
@@ -52,6 +62,17 @@ export class createOrphanages1602594684229 implements MigrationInterface {
           name: 'open_on_weekends',
           type: 'boolean',
           default: false // valor padrão vai ser falso.
+        }
+      ],
+
+      foreignKeys: [
+        {
+          name: 'UserOrphanage',
+          columnNames: ['user_id'],
+          referencedTableName: 'users',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         }
       ]
     }))

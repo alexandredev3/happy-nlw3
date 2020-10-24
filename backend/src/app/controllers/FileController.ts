@@ -10,11 +10,10 @@ class FileController {
   async index(request: Request, response: Response) {
     const { orphanage_id } = request.params;
 
-    const orphanageRepository = getRepository(Orphanage);
+    const imageRepository = getRepository(Image);
 
-    const images = await orphanageRepository.find({
-      where: { id: orphanage_id },
-      relations: ['images']  
+    const images = await imageRepository.find({
+      where: { orphanage_id: orphanage_id },
     });
 
     if (!images) {

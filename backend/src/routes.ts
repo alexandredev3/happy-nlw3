@@ -31,7 +31,7 @@ routes.use(adminVerify);
 routes.put('/orphanages/:id', upload.array('images'), OrphanageController.update);
 
 routes.get('/orphanages/images/:orphanage_id', FileController.index);
-routes.put('/orphanages/images/:orphanage_id', upload.array('images'), FileController.create);
+routes.post('/orphanages/images/:orphanage_id', upload.array('images'), FileController.create);
 routes.delete('/orphanages/images/:image_id', FileController.destroy);
 
 routes.put('/orphanages/accept/:id', PendingOrphanagesController.update);

@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 
 import Orphanage from '../models/Orphanage';
 
-class AcceptOrphanagesController {
+class PendingOrphanagesController {
   async update(request: Request, response: Response) {
     const { id } = request.params;
 
@@ -43,4 +43,4 @@ class AcceptOrphanagesController {
   }
 }
 
-export default new AcceptOrphanagesController();
+export default new PendingOrphanagesController();

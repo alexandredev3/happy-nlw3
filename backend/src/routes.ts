@@ -4,7 +4,8 @@ import multer from 'multer'
 import OrphanageController from './app/controllers/OrphanageController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
-import AcceptOrphanagesController from './app/controllers/AcceptOrphanagesController';
+import PendingOrphanagesController from './app/controllers/PendingOrphanagesController';
+import FileController from './app/controllers/FileController';
 
 import uploadConfig from './config/upload';
 
@@ -27,7 +28,13 @@ routes.post('/orphanages', upload.array('images'), OrphanageController.create);
 // Operations that only administrators can do;
 routes.use(adminVerify);
 
-routes.put('/orphanages/accept/:id', AcceptOrphanagesController.update);
-routes.delete('/orphanages/refuse/:id', AcceptOrphanagesController.destroy);
+routes.put('/orphanages/:id', upload.array('images'), OrphanageController.update);
 
-export default routes
+routes.get('/orphanages/images/:orphanage_id', FileController.index);
+routes.put('/orphanages/images/:orphanage_id', upload.array('images'), FileController.create);
+routes.delete('/orphanages/images/:image_id', FileController.destroy);
+
+routes.put('/orphanages/accept/:id', PendingOrphanagesController.update);
+routes.delete('/orphanages/refuse/:id', PendingOrphanagesController.destroy);
+
+export default routes;

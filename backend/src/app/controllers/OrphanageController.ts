@@ -118,6 +118,51 @@ class OrphanageController {
     // status code 201 e quando alguma coisa foi criada.
     return response.status(201).json(orphanage);
   }
+
+  async update(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const { 
+      name,
+      whatsapp,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends
+    } = request.body;
+
+    const requestImages = request.files as Express.Multer.File[];
+
+    const orphanageRepository = getRepository(Orphanage);
+
+    const orphanageExists = await orphanageRepository.findOne(id);
+
+    if (!orphanageExists) {
+      return response.status(400).json({
+        error: 'Orphanage does not exists'
+      });
+    }
+
+    const images = requestImages.map(image => {
+      return { path: image.filename }
+    });
+
+    await orphanageRepository.update(id, {
+      name,
+      whatsapp,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,
+      images
+    });
+
+    return response.status(204).send();
+  }
 }
 
 export default new OrphanageController();

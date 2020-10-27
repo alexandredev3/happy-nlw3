@@ -13,7 +13,7 @@ class FileController {
     const imageRepository = getRepository(Image);
 
     const images = await imageRepository.find({
-      where: { orphanage_id: orphanage_id },
+      where: { orphanage_id },
     });
 
     if (!images) {

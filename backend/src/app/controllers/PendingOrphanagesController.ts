@@ -4,12 +4,22 @@ import { getRepository } from 'typeorm';
 import Orphanage from '../models/Orphanage';
 
 class PendingOrphanagesController {
+  async index(request: Request, response: Response) {
+    const orphanageRepository = getRepository(Orphanage);
+
+    const orphanagesPending = await orphanageRepository.find({
+      where: { isPending: true }
+    });
+
+    return response.status(200).json(orphanagesPending);
+  }
+
   async update(request: Request, response: Response) {
-    const { id } = request.params;
+    const { orphanage_id } = request.params;
 
     const orphanageRepository = getRepository(Orphanage);
 
-    const orphanageExists = await orphanageRepository.findOne(id);
+    const orphanageExists = await orphanageRepository.findOne(orphanage_id);
 
     if (!orphanageExists) {
       return response.status(400).json({
@@ -17,7 +27,7 @@ class PendingOrphanagesController {
       });
     }
 
-    await orphanageRepository.update(id, {
+    await orphanageRepository.update(orphanage_id, {
       isPending: false
     });
 
@@ -29,11 +39,13 @@ class PendingOrphanagesController {
 
     const orphanageRepository = getRepository(Orphanage);
 
-    const orphanageExists = await orphanageRepository.findOne(id);
+    const orphanageExists = await orphanageRepository.findOne(id, {
+      where: { isPending: true }
+    });
 
     if (!orphanageExists) {
       return response.status(400).json({
-        error: 'Orphanage does not exists'
+        error: 'Orphanage does not exists or orphanage has already been accepted'
       });
     }
     

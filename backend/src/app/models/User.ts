@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, OneToMany, JoinColumn, JoinTable, BaseEntity } from 'typeorm';
+import { 
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import bcrypt from 'bcryptjs';
 
 import Orphanage from './Orphanage';
@@ -27,9 +34,11 @@ export default class User {
   orphanages: Orphanage[];
 
   @BeforeInsert()
-  async encryptPassword() {
-    if (this.password_hash) {
-      this.password_hash = await bcrypt.hash(this.password_hash, 8);
+  async encryptPassword(password: string | null) {
+    if (password) {
+      this.password_hash = await bcrypt.hash(password, 8);
+
+      password = null;
     }
   }
 

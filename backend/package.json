@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsnd --transpile-only --ignore-watch node_modules ./src/server.ts",
-    "typeorm": "tsnd ./node_modules/typeorm/cli.js --config ./ormconfig.ts"
+    "typeorm": "tsnd ./node_modules/typeorm/cli.js --config ./ormconfig.ts",
+    "debug": "ts-node-dev --inspect -- ./src/server.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

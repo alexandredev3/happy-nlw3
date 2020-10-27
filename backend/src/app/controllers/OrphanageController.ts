@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 // estamos pegando tudo que esta dentro do yup e colocando dentro de Yup, porque la não tem o export default.
 
 import Orphanage from '../models/Orphanage';
-import User from '../models/User';
 
 import orphanageView from '../../views/orphanages_view';
 
@@ -24,12 +23,12 @@ interface FinalData {
 
 class OrphanageController {
   async show(request: Request, response: Response) {
-    const { id } = request.params;
+    const { orphanage_id } = request.params;
 
     const orphanagesRepository = getRepository(Orphanage);
 
     // ele vai tentar encontrar se não vai retornar um erro.
-    const orphanage = await orphanagesRepository.findOneOrFail(id, {
+    const orphanage = await orphanagesRepository.findOneOrFail(orphanage_id, {
       relations: ['images']
     });
 
@@ -120,7 +119,7 @@ class OrphanageController {
   }
 
   async update(request: Request, response: Response) {
-    const { id } = request.params;
+    const { orphanage_id } = request.params;
 
     const { 
       name,
@@ -133,11 +132,9 @@ class OrphanageController {
       open_on_weekends
     } = request.body;
 
-    const requestImages = request.files as Express.Multer.File[];
-
     const orphanageRepository = getRepository(Orphanage);
 
-    const orphanageExists = await orphanageRepository.findOne(id);
+    const orphanageExists = await orphanageRepository.findOne(orphanage_id);
 
     if (!orphanageExists) {
       return response.status(400).json({
@@ -145,11 +142,7 @@ class OrphanageController {
       });
     }
 
-    const images = requestImages.map(image => {
-      return { path: image.filename }
-    });
-
-    await orphanageRepository.update(id, {
+    const data = {
       name,
       whatsapp,
       latitude,
@@ -157,9 +150,45 @@ class OrphanageController {
       about,
       instructions,
       opening_hours,
-      open_on_weekends,
-      images
+      open_on_weekends
+    }
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      whatsapp: Yup.number().required(),
+      latitude: Yup.number().required(),
+      longitude: Yup.number().required(),
+      about: Yup.string().required().max(300),
+      instructions: Yup.string().required(),
+      opening_hours: Yup.string().required(),
+      open_on_weekends: Yup.boolean().required()
     });
+
+    await schema.validate(data, {
+      abortEarly: false
+    })
+
+    await orphanageRepository.update(orphanage_id, data);
+
+    return response.status(204).send();
+  }
+
+  async destroy(request: Request, response: Response) {
+    const { orphanage_id } = request.params;
+
+    const orphanageRepository = getRepository(Orphanage);
+
+    const orphanageExists = orphanageRepository.findOne(orphanage_id, {
+      where: { isPending: false }
+    });
+
+    if (!orphanageExists) {
+      return response.status(400).json({
+        error: 'This orphanage was not registered in the database'
+      });
+    }
+
+    await orphanageRepository.delete(orphanage_id);
 
     return response.status(204).send();
   }

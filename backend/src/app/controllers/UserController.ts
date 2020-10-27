@@ -1,13 +1,17 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-
-import userView from '../../views/user_view';
+import * as Yup from 'yup';
 
 import User from '../models/User';
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { name, email, password, confirm_password } = request.body;
+    const { 
+      name,
+      email,
+      password,
+      confirm_password 
+    } = request.body;
 
     const userRepository = getRepository(User)
 
@@ -27,12 +31,25 @@ class UserController {
       })
     }
 
-    const user = userRepository.create({
+    const data = {
       name,
       email,
-      password_hash: password
+      password,
+    }
+
+    const schema = Yup.object().shape({
+      name: Yup.string().max(50).required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().min(8).required(),
     });
 
+    await schema.validate(data, {
+      abortEarly: false,
+    })
+
+    const user = userRepository.create(data);
+
+    await user.encryptPassword(password);
     await userRepository.save(user);
 
     return response.status(204).send();

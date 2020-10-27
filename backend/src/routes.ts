@@ -22,19 +22,20 @@ routes.post('/session', SessionController.create);
 routes.use(authMiddleware);
 
 routes.get('/orphanages', OrphanageController.index);
-routes.get('/orphanages/:id', OrphanageController.show);
+routes.get('/orphanages/:orphanage_id', OrphanageController.show);
 routes.post('/orphanages', upload.array('images'), OrphanageController.create);
 
 // Operations that only administrators can do;
 routes.use(adminVerify);
 
-routes.put('/orphanages/:id', upload.array('images'), OrphanageController.update);
+routes.get('/pending', PendingOrphanagesController.index);
+routes.put('/orphanages/accept/:orphanage_id', PendingOrphanagesController.update);
+routes.delete('/orphanages/refuse/:orphanage_id', PendingOrphanagesController.destroy);
+
+routes.put('/orphanages/:orphanage_id', OrphanageController.update);
 
 routes.get('/orphanages/images/:orphanage_id', FileController.index);
 routes.post('/orphanages/images/:orphanage_id', upload.array('images'), FileController.create);
 routes.delete('/orphanages/images/:image_id', FileController.destroy);
-
-routes.put('/orphanages/accept/:id', PendingOrphanagesController.update);
-routes.delete('/orphanages/refuse/:id', PendingOrphanagesController.destroy);
 
 export default routes;

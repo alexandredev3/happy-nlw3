@@ -7,13 +7,13 @@
   <a href="https://github.com/alexandredev3/happy-nlw3/blob/master/LICENSE.txt">
     <img alt="GitHub license" src="https://img.shields.io/github/license/alexandredev3/happy-nlw3?logo=mint&style=flat-square">
   </a>
-  <a href="https://github.com/alexandredev3/proffy/issues">
+  <a href="https://github.com/alexandredev3/happy-nlw3/issues">
     <img alt="GitHub issues" src="https://img.shields.io/github/issues/alexandredev3/happy-nlw3?color=29B6D1&style=flat-square">
   </a>
-  <a href="https://github.com/alexandredev3/proffy/network">
+  <a href="https://github.com/alexandredev3/happy-nlw3/network">
     <img alt="GitHub forks" src="https://img.shields.io/github/forks/alexandredev3/happy-nlw3?color=29B6D1&style=flat-square">
   </a>
-  <a href="https://github.com/alexandredev3/proffy/stargazers">
+  <a href="https://github.com/alexandredev3/happy-nlw3/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/alexandredev3/happy-nlw3?color=29B6D1&style=flat-square">
   </a>
 </h1>

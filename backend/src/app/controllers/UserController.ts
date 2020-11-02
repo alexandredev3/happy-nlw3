@@ -34,13 +34,13 @@ class UserController {
     const data = {
       name,
       email,
-      password,
+      password_hash: password,
     }
 
     const schema = Yup.object().shape({
       name: Yup.string().max(50).required(),
       email: Yup.string().email().required(),
-      password: Yup.string().min(8).required(),
+      password_hash: Yup.string().min(8).required(),
     });
 
     await schema.validate(data, {
@@ -49,7 +49,6 @@ class UserController {
 
     const user = userRepository.create(data);
 
-    await user.encryptPassword(password);
     await userRepository.save(user);
 
     return response.status(204).send();

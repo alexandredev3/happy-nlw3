@@ -6,6 +6,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import PendingOrphanagesController from './app/controllers/PendingOrphanagesController';
 import FileController from './app/controllers/FileController';
+import ResetPasswordController from './app/controllers/ResetPasswordController';
 
 import uploadConfig from './config/upload';
 
@@ -17,6 +18,9 @@ const upload = multer(uploadConfig);
 
 routes.post('/users', UserController.create);
 routes.post('/session', SessionController.create);
+
+routes.post('/password/forgot', ResetPasswordController.create);
+routes.put('/password/reset/:token', ResetPasswordController.update);
 
 // Operations that only authenticated users can do;
 routes.use(authMiddleware);

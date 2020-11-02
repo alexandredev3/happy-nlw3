@@ -56,12 +56,14 @@ class ResetPasswordController {
     }
 
     const tokenIsValid = await resetPasswordRepository.findOne({
-      where: { token: token }
+      where: { 
+        token: token, was_used: false 
+      }
     });
 
     if (!tokenIsValid) {
       return response.status(401).json({
-        error: 'Token is invalid'
+        error: 'Token is invalid or has already been used'
       });
     }
 

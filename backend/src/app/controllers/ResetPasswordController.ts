@@ -3,6 +3,8 @@ import { getRepository } from 'typeorm';
 import crypto from 'crypto';
 import { isBefore } from 'date-fns';
 
+import Mail from '../../lib/Mail';
+
 import User from '../models/User';
 import ResetPassword from '../models/ResetPassword';
 
@@ -13,7 +15,7 @@ class ResetPasswordController {
     const userRespository = getRepository(User);
     const resetPasswordRepository = getRepository(ResetPassword);
 
-    const user = await userRespository.find({
+    const user = await userRespository.findOne({
       where: { email: email }
     });
 
@@ -31,13 +33,24 @@ class ResetPasswordController {
     const resetPassword = resetPasswordRepository.create({
       token,
       expires_on: expiresOn,
-      user_id: user[0].id
+      user_id: user.id
     });
 
     await resetPasswordRepository.delete({
-      user_id: user[0].id
+      user_id: user.id
     });
     await resetPasswordRepository.save(resetPassword);
+
+    await Mail.sendMail({
+      to: `${user.name} - ${user.email}`,
+      from: 'happy@happy.com.br',
+      subject: 'Happy - Redefinir Senha',
+      template: 'recovery',
+      ctx: {
+        token,
+        name: user.name
+      }
+    })
 
     return response.status(204).send();
   }
@@ -57,7 +70,8 @@ class ResetPasswordController {
 
     const tokenIsValid = await resetPasswordRepository.findOne({
       where: { 
-        token: token, was_used: false 
+        token: token, 
+        was_used: false 
       }
     });
 
@@ -82,7 +96,7 @@ class ResetPasswordController {
     }
 
     await resetPasswordRepository.createQueryBuilder()
-      .update(ResetPassword)
+      .update()
       .set({ was_used: true })
       .where('token = :token', { token })
       .execute();

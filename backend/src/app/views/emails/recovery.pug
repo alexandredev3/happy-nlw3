@@ -1,0 +1,61 @@
+head
+  style.
+    body {
+      background: #00C7C7;
+    }
+
+    .container {
+      font-family: Arial;
+      max-width: 500px;
+      width: 100%;
+      color: #fff;
+      margin: 0 auto;
+      border: 1px solid #fff;
+    }
+
+    h3 {
+      font-weight: normal;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 14px;
+      padding-left: 10px;
+    }
+
+    .content {
+      padding: 0px 12px;
+    }
+
+    .button__container {
+      margin: 32px 6px;
+      text-align: center;
+    }
+
+    .button__container button {
+      width: 223px;
+      height: 56px;
+      border: 0;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 15px;
+
+      cursor: pointer;
+      background: #FFD666;
+    }
+
+    .button__container button a {
+      text-decoration: none;
+      color: #00C7C7;
+      background: none;
+    }
+
+body
+  div.container
+    h3 Olá #{name}.
+    
+    div.content
+      h1 Recebemos uma solicitação para redefinir a senha da sua conta.
+
+      p Caso você <strong>não</strong> tenha solicitado uma redefinição, apenas ignore este e-mail.
+      
+        div.button__container
+          button 
+            a(href="http://localhost:3333/password/reset/" + token) Redefinir Senha

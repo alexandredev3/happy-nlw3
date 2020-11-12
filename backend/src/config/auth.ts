@@ -1,4 +1,6 @@
+import { SECRET_KEY } from '../utils/environment';
+
 export default {
-  secret: process.env.SECRET_KEY as string,
+  secret: SECRET_KEY,
   expiresIn: '3d',
 }

@@ -1,10 +1,18 @@
+import { fromUnixTime } from "date-fns"
+import {
+  MAIL_HOST,
+  MAIL_PORT,
+  MAIL_USER,
+  MAIL_PASSWORD
+} from '../utils/environment';
+
 export default {
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_POST as unknown as number,
+  host: MAIL_HOST,
+  port: MAIL_PORT as unknown as number,
   secure: false,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASSWORD
+    user: MAIL_USER,
+    pass: MAIL_PASSWORD
   },
   default: 'Equipe Happy <noreply@happy.com>' as unknown as object
 }

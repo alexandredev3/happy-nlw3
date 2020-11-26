@@ -21,7 +21,7 @@ function Landing() {
 
         <Main>
           <h1>Leve felicidade para o mundo</h1>
-          <p>Visite orfanatos e mude o diade muitas crianças.</p>
+          <p>Visite orfanatos e mude o dia de muitas crianças.</p>
         </Main>
 
         <LocationContainer>
@@ -30,7 +30,7 @@ function Landing() {
         </LocationContainer>
 
         <EnterAppButton>
-          <Link to="/app">
+          <Link to="/signin">
             <FiArrowRight size={26} color="rgba(0, 0, 0, 0.6)" />
           </Link>
         </EnterAppButton>

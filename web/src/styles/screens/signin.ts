@@ -12,6 +12,25 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     margin: 0 auto;
+
+    .back__button {
+      position: absolute;
+      right: 24px;
+      top: 24px;
+    }
+
+    .create__button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 12px;
+      color: #37C77F;
+      font-weight: 800;
+      text-decoration: none;
+
+      cursor: pointer;
+    }
   }
 `;
 

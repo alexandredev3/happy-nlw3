@@ -1,13 +1,11 @@
 import React, { useCallback, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { FiArrowRight } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { Link } from 'react-router-dom'
 
 import { 
   SigninPage,
   Container,
-  EnterAppButton,
   FormContent,
   RememberLogin,
   InputCheckbox
@@ -32,8 +30,9 @@ export default function Signin() {
 
         <Form ref={inputRefs} onSubmit={handleSubmit}>
           <BackButton
-            path="/signup"
-            arrowDirection={true}
+            className="back__button"
+            path="/"
+            arrowDirection={false}
           />
 
           <FormContent>
@@ -62,7 +61,13 @@ export default function Signin() {
               <a href="#">Esqueci minha senha</a>
             </RememberLogin>
 
-            <Button>Entrar</Button>
+            <Button className="signin__button">Entrar</Button>
+            <Link 
+              className="create__button"
+              to="/signup"
+            >
+              Criar uma nova conta
+            </Link>
           </FormContent>
         </Form>
       </Container>

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import { Container } from '../styles/components/button';
 
-const Button: React.FC = ({ children }) => {
+const Button: React.FC<HTMLAttributes<HTMLElement>> = ({ children, ...rest }) => {
   return (
-    <Container>
+    <Container
+      {...rest}
+    >
       { children }
     </Container>
   );

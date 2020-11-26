@@ -1,22 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 interface Props {
   isFocus: boolean;
   isFilled: boolean;
 }
-
-const inputBorderBottom = `
-  &::after {
-    width: calc(100% - 3.2rem);
-    height: 2px;
-    content: '';
-    background: #29B6D1;
-    position: absolute;
-    left: 1.6rem;
-    right: 1.6rem;
-    bottom: 0;
-  }
-`
 
 export const Container = styled.div<Props>`
   display: flex;
@@ -45,13 +32,12 @@ export const Container = styled.div<Props>`
   }
 
   ${props => props.isFocus && css`
-    ${inputBorderBottom}
+    border: 1px solid #37C77F;
   `}
 
   ${props => props.isFilled && css`
-    ${inputBorderBottom}
+    border: 1px solid #37C77F;
   `}
-
 `;
 
 export const Label = styled.label`

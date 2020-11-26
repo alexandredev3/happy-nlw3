@@ -13,10 +13,10 @@ export const Container = styled.div`
     align-items: center;
     margin: 0 auto;
     
-    div:first-child {
+    .back__button {
+      position: absolute;
+      right: 24px;
       top: 24px;
-      left: 24px;
-      right: 0;
     }
   }
 `;

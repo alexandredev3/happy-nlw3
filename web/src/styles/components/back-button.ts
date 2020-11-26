@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  position: absolute;
-  right: 24px;
-  top: 24px;
-
   cursor: pointer;
 
   width: 48px;

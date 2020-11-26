@@ -23,9 +23,12 @@ export default function SignUp() {
   return (
     <SignUpPage>
       <Container>
+        <Background />
+
         <Form ref={inputRefs} onSubmit={handleSubmit}>
           <BackButton
-            path="/"
+            className="back__button"
+            path="/signin"
             arrowDirection={false}
           />
 
@@ -59,8 +62,6 @@ export default function SignUp() {
             <Button>Entrar</Button>
           </FormContent>
         </Form>
-
-        <Background />
       </Container>
     </SignUpPage>
   );

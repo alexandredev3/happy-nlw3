@@ -58,7 +58,7 @@ export default function Signin() {
                 />
                 <span>Lembrar-me</span>
               </InputCheckbox>
-              <a href="#">Esqueci minha senha</a>
+              <Link to="/password/forgot">Esqueci minha senha</Link>
             </RememberLogin>
 
             <Button className="signin__button">Entrar</Button>

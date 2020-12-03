@@ -11,7 +11,6 @@ import {
   InputCheckbox
 } from '../styles/screens/signin';
 
-import BackButton from '../components/BackButton';
 import Background from '../components/Background';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -29,12 +28,6 @@ export default function Signin() {
         <Background />
 
         <Form ref={inputRefs} onSubmit={handleSubmit}>
-          <BackButton
-            className="back__button"
-            path="/"
-            arrowDirection={false}
-          />
-
           <FormContent>
             <h2>Fazer Login</h2>
             
@@ -61,7 +54,12 @@ export default function Signin() {
               <Link to="/password/forgot">Esqueci minha senha</Link>
             </RememberLogin>
 
-            <Button className="signin__button">Entrar</Button>
+            <Button 
+              className="signin__button"
+              type="submit"
+            >
+              Entrar
+            </Button>
             <Link 
               className="create__button"
               to="/signup"

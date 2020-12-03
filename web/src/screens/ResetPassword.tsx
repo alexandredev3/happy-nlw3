@@ -46,7 +46,10 @@ export default function ResetPassword() {
               type="password"
             />
 
-            <Button className="create__button">
+            <Button 
+              className="create__button"
+              type="submit"
+            >
               Enviar
             </Button>
           </FormContent>

@@ -30,7 +30,6 @@ export default function ForgotPassword() {
           <BackButton
             className="back__button"
             path="/signin"
-            arrowDirection={false}
           />
 
           <FormContent>
@@ -48,7 +47,10 @@ export default function ForgotPassword() {
               type="text"
             />
 
-            <Button className="create__button">
+            <Button 
+              className="create__button"
+              type="submit"
+            >
               Enviar
             </Button>
           </FormContent>

@@ -29,19 +29,20 @@ export default function SignUp() {
           <BackButton
             className="back__button"
             path="/signin"
-            arrowDirection={false}
           />
 
           <FormContent>
             <h2>Criar uma nova conta</h2>
             
-            <Input 
+            <Input
+              autoComplete="on"
               label="Nome"
               name="name"
               type="text"
             />
 
             <Input 
+              autoComplete="on"
               label="E-mail"
               name="email"
               type="email"
@@ -59,7 +60,7 @@ export default function SignUp() {
               type="password"
             />
 
-            <Button>Entrar</Button>
+            <Button type="submit">Entrar</Button>
           </FormContent>
         </Form>
       </Container>

@@ -6,20 +6,15 @@ import { Container } from '../styles/components/back-button';
 
 interface BackButtonProps extends HTMLAttributes<HTMLElement>{
   path: string;
-  arrowDirection: boolean;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ path, arrowDirection, ...rest }) => {
+const BackButton: React.FC<BackButtonProps> = ({ path, ...rest }) => {
   return (
     <Container
       {...rest}
     >
       <Link to={path}>
-        {arrowDirection ? (
-          <FiArrowRight size={26} color="#15C3D6" />
-        ) : (
-          <FiArrowLeft size={26} color="#15C3D6" />
-        )}
+        <FiArrowLeft size={26} color="#15C3D6" />
       </Link>
     </Container>
   );

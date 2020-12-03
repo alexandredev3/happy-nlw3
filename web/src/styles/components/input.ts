@@ -46,3 +46,15 @@ export const Label = styled.label`
   top: -28px;
   left: 0;
 `;
+
+export const VisibleButton = styled.button`
+  position: absolute;
+  top: 4px;
+  bottom: 0;
+  right: 25px;
+
+  border: 0;
+  outline: none;
+
+  cursor: pointer;
+`;

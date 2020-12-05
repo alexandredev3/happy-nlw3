@@ -292,7 +292,7 @@ export default function PendingOrphanagesDetails() {
         </AcceptOrRefuseButtons>
       </Main>
     </PageCreateOrphanage>
-  );
+  )
 }
 
 // return `https://a.tile.openstreetmap.org/${z}/${x}/${y}.png`;

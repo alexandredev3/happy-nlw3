@@ -51,14 +51,14 @@ const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) 
         <Options>
           { isPendingOrphanages ? (
             <EditButton>
-              <Link to="#">
+              <Link to="pending-orphanages/details">
                 <FiArrowRight color="#15C3D6" size={20} />
               </Link>
             </EditButton>
           ) : (
             <>
               <EditButton>
-                <Link to="#">
+                <Link to="orphanages/update">
                   <FiEdit3 color="#15C3D6" size={20} />
                 </Link>
               </EditButton>

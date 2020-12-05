@@ -18,7 +18,7 @@ export default function SignUp() {
 
   const handleSubmit = useCallback(async (data) => {
     console.log('Sucesso!')
-  }, [])
+  }, [inputRefs])
 
   return (
     <SignUpPage>
@@ -28,7 +28,6 @@ export default function SignUp() {
         <Form ref={inputRefs} onSubmit={handleSubmit}>
           <BackButton
             className="back__button"
-            path="/signin"
           />
 
           <FormContent>

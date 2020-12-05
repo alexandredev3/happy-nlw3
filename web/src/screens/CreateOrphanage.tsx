@@ -3,17 +3,20 @@ import { Map, Marker, TileLayer } from 'react-leaflet';
 import { FiPlus, FiX } from "react-icons/fi";
 import { LeafletMouseEvent } from 'leaflet';
 import { useHistory } from "react-router-dom";
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core'
 
 import mapIcon from '../utils/mapIcon';
 
 import Sidebar from "../components/Sidebar";
+import Input from '../components/Input';
+import ConfirmButton from '../components/Button';
 
 import api from "../services/api";
 
 import { 
   PageCreateOrphanage,
   Main,
-  Form,
   Fieldset,
   Legend,
   InputBlock,
@@ -24,7 +27,6 @@ import {
   NewImageButton,
   ButtonSelect,
   Button,
-  ConfirmButton 
 } from '../styles/screens/create-orphanage';
 
 export default function CreateOrphanage() {
@@ -35,11 +37,13 @@ export default function CreateOrphanage() {
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const whatsappInputRef = useRef<HTMLInputElement>(null);
-  const aboutInputRef = useRef<HTMLTextAreaElement>(null);
-  const instructionsInputRef = useRef<HTMLTextAreaElement>(null);
-  const openingHoursInputRef = useRef<HTMLInputElement>(null);
+  const inputRefs = useRef<FormHandles>(null);
+
+  // const nameInputRef = useRef<HTMLInputElement>(null);
+  // const whatsappInputRef = useRef<HTMLInputElement>(null);
+  // const aboutInputRef = useRef<HTMLTextAreaElement>(null);
+  // const instructionsInputRef = useRef<HTMLTextAreaElement>(null);
+  // const openingHoursInputRef = useRef<HTMLInputElement>(null);
 
   const history = useHistory();
 
@@ -82,67 +86,59 @@ export default function CreateOrphanage() {
 
   }, [previewImages, images]);
 
-  const handleSubmit = useCallback(async (event: FormEvent) => {
-    event?.preventDefault();
+  const handleSubmit = useCallback(async (data) => {
+    // event?.preventDefault();
 
-    const name = nameInputRef.current?.value;
-    const whatsapp = whatsappInputRef.current?.value;
-    const about = aboutInputRef.current?.value;
-    const instructions = instructionsInputRef.current?.value;
-    const opening_hours = openingHoursInputRef.current?.value;
+    // const name = nameInputRef.current?.value;
+    // const whatsapp = whatsappInputRef.current?.value;
+    // const about = aboutInputRef.current?.value;
+    // const instructions = instructionsInputRef.current?.value;
+    // const opening_hours = openingHoursInputRef.current?.value;
 
-    const { latitude, longitude } = positionMarker;
+    // const { latitude, longitude } = positionMarker;
 
-    if (!name || !whatsapp || !about || !instructions || !opening_hours) {
-      return alert("Todos os campos são obrigatorios");
-    }
+    // if (!name || !whatsapp || !about || !instructions || !opening_hours) {
+    //   return alert("Todos os campos são obrigatorios");
+    // }
 
-    // FormData = MultiPart Form
-    const data = new FormData();
+    // // FormData = MultiPart Form
+    // const data = new FormData();
     
-    data.append('name', name);
-    data.append('whatsapp', whatsapp);
-    data.append('about', about);
-    data.append('instructions', instructions);
-    data.append('opening_hours', opening_hours);
+    // data.append('name', name);
+    // data.append('whatsapp', whatsapp);
+    // data.append('about', about);
+    // data.append('instructions', instructions);
+    // data.append('opening_hours', opening_hours);
 
-    data.append('latitude', String(latitude));
-    data.append('longitude', String(longitude));
+    // data.append('latitude', String(latitude));
+    // data.append('longitude', String(longitude));
 
-    data.append('open_on_weekends', String(open_on_weekends));
+    // data.append('open_on_weekends', String(open_on_weekends));
 
-    images.forEach((image) => {
-      data.append('images', image)
-    });
+    // images.forEach((image) => {
+    //   data.append('images', image)
+    // });
 
-    try {
-      const { push } = history;
+    // try {
+    //   const { push } = history;
 
-      await api.post('/orphanages', data);
+    //   await api.post('/orphanages', data);
 
-      alert("Cadastro realizado com sucesso!");
-      push('/app');
-    } catch(err) {
-      alert("Ocorreu um erro inesperado, Tente novamente mais tarde...");
-      console.log(err);
-    }
+    //   alert("Cadastro realizado com sucesso!");
+    //   push('/app');
+    // } catch(err) {
+    //   alert("Ocorreu um erro inesperado, Tente novamente mais tarde...");
+    //   console.log(err);
+    // }
 
-  }, [
-    nameInputRef, 
-    aboutInputRef, 
-    instructionsInputRef, 
-    openingHoursInputRef, 
-    positionMarker,
-    open_on_weekends,
-    images
-  ]);
+  }, [inputRefs]);
 
   return (
     <PageCreateOrphanage>
       <Sidebar />
 
       <Main>
-        <Form onSubmit={handleSubmit}>
+        <Form ref={inputRefs} onSubmit={handleSubmit}>
           <Fieldset>
             <Legend>Dados</Legend>
 
@@ -167,31 +163,30 @@ export default function CreateOrphanage() {
               }
             </Map>
 
+
             <InputBlock>
-              <Label htmlFor="name">Nome</Label>
-              <input
-                ref={nameInputRef} 
-                id="name" 
+              <Input
                 name="name"
+                label="Nome"
+                type="text"
               />
             </InputBlock>
 
             <InputBlock>
-              <Label htmlFor="about">Sobre <span>Máximo de 300 caracteres</span></Label>
-              <textarea 
-                id="name" 
+              <Input 
                 name="about"
+                label='Sobre'
                 maxLength={300}
-                ref={aboutInputRef} 
+                multiline
               />
             </InputBlock>
 
             <InputBlock>
-              <Label htmlFor="whatsapp">Número de Whatsapp</Label>
-              <input
-                ref={whatsappInputRef} 
+              <Input 
                 id="whatsapp" 
                 name="whatsapp"
+                label="Número de Whatsapp"
+                type="text"
               />
             </InputBlock>
 
@@ -225,7 +220,6 @@ export default function CreateOrphanage() {
               </ImagesContainer>
 
               <input 
-                multiple 
                 type="file" 
                 id="images[]"
                 onChange={handleSelectImages}
@@ -237,20 +231,20 @@ export default function CreateOrphanage() {
             <Legend>Visitação</Legend>
 
             <InputBlock>
-              <Label htmlFor="instructions">Instruções</Label>
-              <textarea 
-                ref={instructionsInputRef} 
-                name="instructions" 
-                id="instructions" 
+              <Input 
+                name="instructions"
+                label='Instruções'
+                multiline
               />
             </InputBlock>
-
+            
             <InputBlock>
-              <Label htmlFor="opening_hours">Horário de funcionamento</Label>
-              <input 
-                ref={openingHoursInputRef} 
-                name="opening_hours" 
+              <Input
                 id="opening_hours"
+                name="opening_hours" 
+                label="Horário de funcionamento"
+                type="text"
+                multiline 
               />
             </InputBlock>
 
@@ -266,7 +260,7 @@ export default function CreateOrphanage() {
                   Sim
                 </Button>
 
-                <Button 
+                <Button
                   active={!open_on_weekends ? true : false}
                   onClick={() => setOpenOnWeekends(false)}
                   type="button"
@@ -277,7 +271,10 @@ export default function CreateOrphanage() {
             </InputBlock>
           </Fieldset>
 
-          <ConfirmButton type="submit">
+          <ConfirmButton
+            className="submit__button"
+            type="submit"
+          >
             Confirmar
           </ConfirmButton>
         </Form>

@@ -3,9 +3,10 @@ import styled, { css, keyframes } from 'styled-components';
 interface Props {
   isFocus: boolean;
   isFilled: boolean;
+  isMultiline: boolean;
 }
 
-export const Container = styled.div<Props>`
+const input = css`
   display: flex;
   margin-top: 8px;
   height: 64px;
@@ -16,11 +17,31 @@ export const Container = styled.div<Props>`
 
   border: 1px solid #D3E2E5;
   border-radius: 20px;
+`;
 
+const textarea = css`
+  display: flex;
+  min-height: 120px;
+  max-height: 240px;
+  resize: vertical;
+  padding: 16px;
+  line-height: 28px;
+
+  width: 100%;
+  background: #F5F8FA;
+  border: 1px solid #D3E2E5;
+  border-radius: 20px;
+  outline: none;
+  color: #5C8599;
+`;
+
+export const Container = styled.div<Props>`
   position: relative;
 
+  ${props => props.isMultiline ? textarea : input }
+
   & + & {
-    margin-top: 46px;
+    margin-top: 56px;
   }
 
   > input {
@@ -29,6 +50,15 @@ export const Container = styled.div<Props>`
     border: 0;
     outline: none;
     color: #5C8599;
+  }
+
+  > textarea {
+    flex: 1;
+    border: 0;
+    outline: none;
+    color: #5C8599;
+    background: none;
+    resize: none;
   }
 
   ${props => props.isFocus && css`
@@ -43,7 +73,7 @@ export const Container = styled.div<Props>`
 export const Label = styled.label`
   position: absolute;
   color: #8FA7B3;
-  top: -28px;
+  top: -34px;
   left: 0;
 `;
 

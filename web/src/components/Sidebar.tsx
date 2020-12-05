@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
       <img src={mapMarkerImg} alt="Happy" />
 
       <Footer>
-        <Button type="button" onClick={goBack}>
+        <Button onClick={goBack}>
           <FiArrowLeft size={24} color="#FFF" />
         </Button>
       </Footer>

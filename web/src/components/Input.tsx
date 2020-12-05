@@ -13,14 +13,23 @@ import {
   Label,
   VisibleButton
 } from '../styles/components/input';
-import { type } from 'os';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Props<T> extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
+  multiline?: T;
 }
 
-const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
+// estou indicando para o elemento input, que ele recebe essa interface Props, o msm para o textarea.
+type InputProps = JSX.IntrinsicElements['input'] & Props<false>;
+type TextAreaProps = JSX.IntrinsicElements['textarea'] & Props<true>
+
+const Input: React.FC<InputProps | TextAreaProps> = ({ 
+  name, 
+  label, 
+  multiline = false,
+  ...rest 
+}) => {
   const [isFilled, setIsFilled] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
@@ -51,45 +60,56 @@ const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
     registerField({
       name: fieldName,
       path: 'value',
-      ref: inputRef.current
+      ref: inputRef.current,
     })
   }, [fieldName, registerField]);
+
+  const inputProps = {
+    ...rest,
+    onFocus: handleInputFocus,
+    onBlur: handleInputBlur,
+    inputRef,
+    name: fieldName,
+    id: fieldName,
+    'arial-label': fieldName,
+    defaultValue
+  }
 
   return (
     <Container
       isFilled={isFilled}
       isFocus={isFocus}
+      isMultiline={multiline}
     >
       <Label htmlFor={fieldName}>{ label }</Label>
 
-      {rest.type === 'password' ? (
+      {rest.type === 'password' && (
         <>
           <VisibleButton 
             onClick={handleToggleVisiblePassword}
             type="button"
           >
             {isVisiblePassword ? (
-              <FiEye size={26} color="#8FA7B2" />
-            ) : (
               <FiEyeOff size={26} color="#15C3D6" />
+            ) : (
+              <FiEye size={26} color="#8FA7B2" />
             )}
           </VisibleButton>
 
           <input
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
-            ref={inputRef}
+            {...inputProps as unknown as InputProps}
             type={isVisiblePassword ? 'text' : 'password'}
-            defaultValue={defaultValue}
           />
         </>
+      )}
+
+      {multiline ? (
+        <textarea
+          {...inputProps as unknown as TextAreaProps}
+        />
       ) : (
         <input
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          ref={inputRef}
-          defaultValue={defaultValue}
-          {...rest}
+          {...inputProps as unknown as InputProps}
         />
       )}
     </Container>

@@ -4,35 +4,35 @@ interface ButtonProps {
   active?: boolean;
 }
 
-interface ImageProp {
-  imageUrl: string;
-}
-
 export const PageCreateOrphanage = styled.div`
   display: flex;
 `;
 
 export const Main = styled.main`
   flex: 1;
-`;
 
-export const Form = styled.form`
-  width: 700px;
-  margin: 64px auto;
+  form {
+    width: 700px;
+    margin: 64px auto;
 
-  background: #FFFFFF;
-  border: 1px solid #D3E2E5;
-  border-radius: 20px;
-
-  padding: 64px 80px;
-
-  overflow: hidden;
-
-  .leaflet-container {
-    margin-bottom: 40px;
+    background: #FFFFFF;
     border: 1px solid #D3E2E5;
-
     border-radius: 20px;
+
+    padding: 64px 80px;
+
+    overflow: hidden;
+
+    .leaflet-container {
+      margin-bottom: 62px;
+      border: 1px solid #D3E2E5;
+
+      border-radius: 20px;
+    }
+
+    .submit__button {
+      margin-top: 64px;
+    }
   }
 `;
 
@@ -59,33 +59,11 @@ export const Legend = styled.legend`
 
 export const InputBlock = styled.div`
   & + & {
-    margin-top: 24px;
+    margin-top: 54px;
   }
 
   input[type=file] {
     display: none;
-  }
-
-  > input {
-    height: 64px;
-    padding: 0 16px;
-  }
-  
-  > textarea {
-    min-height: 120px;
-    max-height: 240px;
-    resize: vertical;
-    padding: 16px;
-    line-height: 28px;
-  }
-
-  > input, textarea {
-    width: 100%;
-    background: #F5F8FA;
-    border: 1px solid #D3E2E5;
-    border-radius: 20px;
-    outline: none;
-    color: #5C8599;
   }
 `;
 
@@ -177,32 +155,5 @@ export const Button = styled.button<ButtonProps>`
   &:last-of-type {
     border-radius: 0 20px 20px 0;
     border-left: 0;
-  }
-`;
-
-export const ConfirmButton = styled.button`
-  margin-top: 64px;
-
-  width: 100%;
-  height: 64px;
-  border: 0;
-  cursor: pointer;
-  background: #3CDC8C;
-  border-radius: 20px;
-  color: #FFFFFF;
-  font-weight: 800;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  transition: background-color 0.2s;
-
-  > svg {
-    margin-right: 16px;
-  }
-
-  &:hover {
-    background: #36CF82;
   }
 `;

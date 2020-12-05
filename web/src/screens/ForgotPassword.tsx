@@ -29,7 +29,6 @@ export default function ForgotPassword() {
         <Form ref={inputRefs} onSubmit={handleSubmit}>
           <BackButton
             className="back__button"
-            path="/signin"
           />
 
           <FormContent>

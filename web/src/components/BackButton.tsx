@@ -1,21 +1,23 @@
-import React, { HTMLAttributes } from 'react';
-import { Link } from 'react-router-dom';
-import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { FiArrowLeft } from 'react-icons/fi';
 
 import { Container } from '../styles/components/back-button';
 
-interface BackButtonProps extends HTMLAttributes<HTMLElement>{
-  path: string;
-}
+type BackButtonProps = JSX.IntrinsicElements['button'];
 
-const BackButton: React.FC<BackButtonProps> = ({ path, ...rest }) => {
+const BackButton: React.FC<BackButtonProps> = ({ ...rest }) => {
+  const { goBack } = useHistory();
+
   return (
     <Container
-      {...rest}
+      {...rest as BackButtonProps}
     >
-      <Link to={path}>
-        <FiArrowLeft size={26} color="#15C3D6" />
-      </Link>
+      <FiArrowLeft
+        onClick={goBack}
+        size={26} 
+        color="#15C3D6"
+      />
     </Container>
   );
 }

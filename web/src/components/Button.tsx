@@ -1,12 +1,23 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React from 'react';
+import { IconType } from 'react-icons';
 
 import { Container } from '../styles/components/button';
 
-const Button: React.FC<ButtonHTMLAttributes<HTMLElement>> = ({ children, ...rest }) => {
+interface Props {
+  Icon?: IconType;
+}
+
+type ButtonProps = JSX.IntrinsicElements['button'] & Props;
+
+const Button: React.FC<ButtonProps> = ({ children, Icon, ...rest }) => {
   return (
     <Container
-      {...rest}
+      {...rest as ButtonProps}
     >
+      {Icon && (
+        <Icon size={24} color="#FFF" />
+      )}
+
       { children }
     </Container>
   );

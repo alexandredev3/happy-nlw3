@@ -51,7 +51,7 @@ export default function Signin() {
                 />
                 <span>Lembrar-me</span>
               </InputCheckbox>
-              <Link to="/password/forgot">Esqueci minha senha</Link>
+              <Link to="/signin/password/forgot">Esqueci minha senha</Link>
             </RememberLogin>
 
             <Button 

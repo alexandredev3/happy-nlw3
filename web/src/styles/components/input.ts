@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components';
 interface Props {
   isFocus: boolean;
   isFilled: boolean;
-  isMultiline: boolean;
+  isMultiline?: boolean;
 }
 
 const input = css`

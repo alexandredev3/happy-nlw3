@@ -75,6 +75,33 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
     defaultValue
   }
 
+  if (rest.type === 'password') {
+    return (
+      <Container
+        isFilled={isFilled}
+        isFocus={isFocus}
+      >
+        <Label htmlFor={fieldName}>{ label }</Label>
+
+        <VisibleButton 
+          onClick={handleToggleVisiblePassword}
+          type="button"
+        >
+          {isVisiblePassword ? (
+            <FiEyeOff size={26} color="#15C3D6" />
+          ) : (
+            <FiEye size={26} color="#8FA7B2" />
+          )}
+        </VisibleButton>
+
+        <input
+          {...inputProps as unknown as InputProps}
+          type={isVisiblePassword ? 'text' : 'password'}
+        />
+      </Container>
+    );
+  }
+
   return (
     <Container
       isFilled={isFilled}
@@ -82,26 +109,6 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
       isMultiline={multiline}
     >
       <Label htmlFor={fieldName}>{ label }</Label>
-
-      {rest.type === 'password' && (
-        <>
-          <VisibleButton 
-            onClick={handleToggleVisiblePassword}
-            type="button"
-          >
-            {isVisiblePassword ? (
-              <FiEyeOff size={26} color="#15C3D6" />
-            ) : (
-              <FiEye size={26} color="#8FA7B2" />
-            )}
-          </VisibleButton>
-
-          <input
-            {...inputProps as unknown as InputProps}
-            type={isVisiblePassword ? 'text' : 'password'}
-          />
-        </>
-      )}
 
       {multiline ? (
         <textarea

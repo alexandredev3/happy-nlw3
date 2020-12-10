@@ -28,6 +28,8 @@ export const Main = styled.main`
       border: 1px solid #D3E2E5;
 
       border-radius: 20px;
+
+      z-index: 1;
     }
 
     .submit__button {

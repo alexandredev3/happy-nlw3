@@ -11,14 +11,12 @@ import {
 } from '../styles/components/sidebar-styles';
 
 const Sidebar: React.FC = () => {
-  const { goBack } = useHistory();
-
   return (
     <Aside>
       <img src={mapMarkerImg} alt="Happy" />
 
       <Footer>
-        <Button onClick={goBack}>
+        <Button type="button">
           <FiArrowLeft size={24} color="#FFF" />
         </Button>
       </Footer>

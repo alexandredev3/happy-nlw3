@@ -10,6 +10,8 @@ const ButtonStyles = css`
   background: #EBF2F5;
 
   border-radius: 16px;
+
+  cursor: pointer;
 `;
 
 export const Container = styled.div`
@@ -30,6 +32,8 @@ export const MapContent = styled.div`
   .leaflet-container {
     border-bottom: 1px solid #D3E2E5;
     border-radius: 20px;
+
+    z-index: 1;
   }
 `;
 

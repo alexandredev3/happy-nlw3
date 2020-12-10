@@ -8,9 +8,12 @@ import { FormHandles } from '@unform/core'
 
 import mapIcon from '../utils/mapIcon';
 
+import modalImage from '../assets/images/modal-image-register.svg';
+
 import Sidebar from "../components/Sidebar";
 import Input from '../components/Input';
 import ConfirmButton from '../components/Button';
+import ModalRegisterOrphanage, { IModalHandles } from "../components/ModalRegisterOrphanage";
 
 import api from "../services/api";
 
@@ -38,6 +41,7 @@ export default function CreateOrphanage() {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   const inputRefs = useRef<FormHandles>(null);
+  const modalRef = useRef<IModalHandles>(null);
 
   // const nameInputRef = useRef<HTMLInputElement>(null);
   // const whatsappInputRef = useRef<HTMLInputElement>(null);
@@ -131,11 +135,16 @@ export default function CreateOrphanage() {
     //   console.log(err);
     // }
 
-  }, [inputRefs]);
+    modalRef.current?.handleOpenModal();
+
+  }, [inputRefs, modalRef]);
 
   return (
     <PageCreateOrphanage>
       <Sidebar />
+      <ModalRegisterOrphanage 
+        ref={modalRef}
+      />
 
       <Main>
         <Form ref={inputRefs} onSubmit={handleSubmit}>

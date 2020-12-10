@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FiEdit3, FiTrash, FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Map, TileLayer, Marker } from 'react-leaflet';
+
+import ModalDeleteOrphanage, { IModalHandles } from '../components/ModalDeleteOrphanage';
 
 import { 
   Container,
@@ -22,8 +24,18 @@ interface OrphanagesCardProps {
 }
 
 const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) => {
+  const modalRef = useRef<IModalHandles>(null);
+
+  const handleDeleteOrphanage = useCallback(() => {
+    modalRef.current?.handleOpenModal();
+  }, [modalRef])
+
   return (
     <Container>
+      <ModalDeleteOrphanage
+        ref={modalRef}
+      />
+
       <MapContent>
         <Map 
           center={[-16.2476171, -47.9475306]}
@@ -62,10 +74,8 @@ const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) 
                   <FiEdit3 color="#15C3D6" size={20} />
                 </Link>
               </EditButton>
-              <DeleteButton>
-                <Link to="#">
-                  <FiTrash color="#15C3D6" size={20} />
-                </Link>
+              <DeleteButton onClick={handleDeleteOrphanage}>
+                <FiTrash color="#15C3D6" size={20} />
               </DeleteButton>
             </>
           ) }

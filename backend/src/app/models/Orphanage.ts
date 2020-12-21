@@ -6,13 +6,15 @@ import User from './User';
 
 @Entity('orphanages')
 export default class Orphanage {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
 
-  @Column()
+  @Column('boolean', {
+    default: true
+  })
   isPending: boolean;
 
   @Column()

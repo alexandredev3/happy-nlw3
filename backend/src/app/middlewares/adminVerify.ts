@@ -4,18 +4,21 @@ import { getRepository } from 'typeorm';
 import User from '../models/User';
 
 export default async (request: Request, response: Response, next: NextFunction) => {
-  const userRepository = getRepository(User);
+  const adminUsersRepository = getRepository(User);
+  
+  const id = request.user;
 
-  const userIsAdmin = await userRepository.findOne({
+  const userIsAdmin = await adminUsersRepository.findOne({
     where: {
-      id: request.userId,
+      id,
       isAdmin: true
     }
   })
 
   if (!userIsAdmin) {
-    return response.status(401).json({ 
-      error: 'Only administrators can accept an orphanage!' 
+    return response.status(401).json({
+      status: 401,
+      error: 'Restricted Access',
     });
   }
 

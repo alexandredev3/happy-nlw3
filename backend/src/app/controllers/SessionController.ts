@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 
-import authConfig from '../../config/auth';
+import jwt from '../../utils/jwt';
 
 import User from '../models/User';
 
@@ -22,9 +21,16 @@ class SessionController {
       abortEarly: false
     })
 
-    const user = await userRepository.findOneOrFail({
+    const user = await userRepository.findOne({
       where: { email: email }
     });
+
+    if (!user) {
+      return response.status(400).json({
+        status: 400,
+        error: 'User does not exists.'
+      });
+    }
 
     if (!await (user).comparePassword(password)) {
       return response.status(401).json({
@@ -32,17 +38,17 @@ class SessionController {
       });
     }
 
-    const { name, id, isAdmin } = user;
+    const { 
+      name, 
+      id, 
+    } = user;
 
     return response.status(200).json({
       user: {
         id,
         name,
-        isAdmin
       },
-      token: jwt.sign({ uid: id }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn
-      })
+      token: jwt.sign({ id: user.id })
     })
   }
 }

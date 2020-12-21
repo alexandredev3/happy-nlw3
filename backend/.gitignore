@@ -1,6 +1,10 @@
 node_modules
+
 .env
 database.sqlite
+data.sqlite
+private-key.pem
+public-key.pem
 
 uploads/*
 !/uploads/.gitkeep

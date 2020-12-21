@@ -5,16 +5,16 @@ import {
   TYPEORM_USERNAME,
   TYPEORM_PASSWORD,
   TYPEORM_DATABASE
-} from './src/utils/environment'
+} from './src/utils/environment';
 
 module.exports = {
   type: TYPEORM_TYPE,
-  host: TYPEORM_HOST,
-  port: TYPEORM_PORT,
-  username: TYPEORM_USERNAME,
-  password: TYPEORM_PASSWORD,
-  database: TYPEORM_DATABASE,
-  migrations: ["./src/database/migrations/*.ts"],
+  database: './src/database/database.sqlite',
+  migrations: [
+    "./src/database/migrations/*.ts",
+  ],
+  seeds: ['./src/database/seeds/*.ts'],
+  factories: ['./src/factories/*.ts'],
   entities: ["./src/app/models/*.ts"],
   cli: {
     migrationsDir: "./src/database/migrations",

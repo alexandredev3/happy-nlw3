@@ -10,11 +10,11 @@ export class createOrphanages1602624281324 implements MigrationInterface {
         // Colunas
         {
           name: 'id',
-          type: 'integer',
-          unsigned: true, // sempre vai ser um valor positivo
+          type: 'uuid',
+          unsigned: true,
           isPrimary: true,
-          isGenerated: true, // sera criado automaticamente
-          generationStrategy: 'increment' // AutoIncrement
+          generationStrategy: 'uuid',
+          default: 'uuid_generate_v4()'
         },
         {
           name: 'isPending',

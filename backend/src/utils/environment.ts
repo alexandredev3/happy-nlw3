@@ -8,7 +8,8 @@ dotenv.config({
 
 // Secrets;
 export const { 
-  SECRET_KEY,
+  PUBLIC_SECRET,
+  PRIVATE_SECRET
 } = process.env;
 
 // Postgres Connection;
@@ -33,6 +34,12 @@ export const {
   MAIL_PORT,
   MAIL_USER,
   MAIL_PASSWORD,
+} = process.env;
+
+// admin credentials
+export const {
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD
 } = process.env;
 
 // App;

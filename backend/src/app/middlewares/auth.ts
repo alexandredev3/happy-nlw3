@@ -1,35 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 
-import authConfig from '../../config/auth';
-
-interface Decoded {
-  uid: number;
-  iat: number; 
-  exp: number;
-}
+import jwt from '../../utils/jwt';
 
 export default async (request: Request, response: Response, next: NextFunction) => {
-  const authHeader = request.headers.authorization;
+  const token = jwt.extractToken(request); 
 
-  if (!authHeader) {
-    return response.status(401).json({
-      error: 'Token is required'
-    });
-  }
-  
-  const [, token] = authHeader.split(' ');
+  jwt.verify(token)
+    .then(({ id }) => {
+      request.user = id;
 
-
-  try {
-    const decoded = jwt.verify(token, authConfig.secret) as Decoded;
-
-    request.userId = decoded.uid;
-
-    return next();
-  } catch(err) {
-    return response.status(401).json({
-      error: 'Token is invalid'
+      next();
     })
-  }
+    .catch((error) => {
+      response.status(401).json({
+        status: 401,
+        message: 'Invalid authentication token',
+        code: 'UNAUTHENTICATED',
+      })
+    })
 }

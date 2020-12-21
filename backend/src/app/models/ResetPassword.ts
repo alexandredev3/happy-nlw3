@@ -5,8 +5,8 @@ import User from './User';
 @Entity('reset-password')
 export default class ResetPassword {
 
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   token: string;

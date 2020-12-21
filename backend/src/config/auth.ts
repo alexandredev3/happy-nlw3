@@ -1,6 +1,13 @@
-import { SECRET_KEY } from '../utils/environment';
+import { PRIVATE_SECRET, PUBLIC_SECRET } from '../utils/environment';
+
+interface IAuth {
+  private_secret: string;
+  public_secret: string;
+  expiresIn: string;
+}
 
 export default {
-  secret: SECRET_KEY,
+  private_secret: PRIVATE_SECRET,
+  public_secret: PUBLIC_SECRET,
   expiresIn: '3d',
-}
+} as IAuth;

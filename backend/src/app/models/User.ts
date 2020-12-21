@@ -15,15 +15,12 @@ import ResetPassword from './ResetPassword';
 
 @Entity('users')
 export default class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;
-
-  @Column()
-  isAdmin: boolean;
-
+  
   @Column()
   email: string;
 
@@ -40,6 +37,11 @@ export default class User {
     cascade: ['insert', 'update']
   })
   reset_password: ResetPassword;
+
+  @Column('boolean', {
+    default: false
+  })
+  isAdmin: boolean;
 
   @BeforeInsert()
   @BeforeUpdate()

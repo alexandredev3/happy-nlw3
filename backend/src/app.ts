@@ -1,5 +1,5 @@
-import express from 'express';
 import 'express-async-errors';
+import express from 'express';
 import { join } from 'path';
 import cors from 'cors';
 import 'dotenv/config'

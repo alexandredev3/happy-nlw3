@@ -1,7 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { Link } from 'react-router-dom'
+import { useAuth } from '../hooks/auth';
 
 import { 
   SigninPage,
@@ -15,12 +16,36 @@ import Background from '../components/Background';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
+interface ISigninData {
+  email: string;
+  password: string;
+}
+
 export default function Signin() {
+  const [isSaveToken, setIsSaveToken] = useState(false);
+
   const inputRefs = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(() => {
-    alert('Login realizado com sucesso!');
-  }, [inputRefs]);
+  const { signIn } = useAuth();
+
+  const handleCheckBox = useCallback(() => {
+    setIsSaveToken(!isSaveToken);
+  }, [isSaveToken])
+
+  const handleSubmit = useCallback(async (data: ISigninData) => {
+    const { email, password } = data;
+
+    try {
+      await signIn({
+        email,
+        password,
+        isSaveToken
+      })
+      
+    } catch(error) {
+      alert('Ocorreu um erro inesperado...')
+    }
+  }, [inputRefs, isSaveToken]);
 
   return (
     <SigninPage>
@@ -48,6 +73,7 @@ export default function Signin() {
                 <input 
                   type="checkbox"
                   name="remember"
+                  onChange={handleCheckBox}
                 />
                 <span>Lembrar-me</span>
               </InputCheckbox>

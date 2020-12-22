@@ -59,8 +59,8 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
   useEffect(() => {
     registerField({
       name: fieldName,
-      path: 'value',
       ref: inputRef.current,
+      path: 'value',
     })
   }, [fieldName, registerField]);
 
@@ -68,7 +68,7 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
     ...rest,
     onFocus: handleInputFocus,
     onBlur: handleInputBlur,
-    inputRef,
+    ref: inputRef,
     name: fieldName,
     id: fieldName,
     'arial-label': fieldName,

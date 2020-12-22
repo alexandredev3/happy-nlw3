@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { useHistory } from 'react-router-dom';
 
 import { 
   SignUpPage,
@@ -8,16 +9,42 @@ import {
   FormContent
 } from '../styles/screens/sign-up';
 
+import api from '../services/api';
+
 import Background from '../components/Background';
 import BackButton from '../components/BackButton';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
+interface ISignUpData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export default function SignUp() {
+  const { push } = useHistory();
+
   const inputRefs = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data) => {
-    console.log('Sucesso!')
+  const handleSubmit = useCallback(async (data: ISignUpData) => {
+    const { name, email, password, confirmPassword } = data;
+
+    try {
+      await api.post('/users', {
+        name,
+        email,
+        password,
+        confirm_password: confirmPassword
+      });
+
+      alert('cadastro realizado com sucesso!');
+
+      push('/signin');
+    } catch(err) {
+      alert('Ocorreu um erro inesperado.')
+    }
   }, [inputRefs])
 
   return (
@@ -55,7 +82,7 @@ export default function SignUp() {
 
             <Input 
               label="Sua senha novamente"
-              name="confirm-password"
+              name="confirmPassword"
               type="password"
             />
 

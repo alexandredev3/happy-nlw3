@@ -36,13 +36,18 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const [userData, setUserData] = useState<IUserData | null>(() => {
     const cookieToken = cookie.logged_in;
-    const StorageUser = localStorage.getItem('@HappyAuth:user')
+    const StorageUser = localStorage.getItem('@HappyAuth:user');
 
     if (cookieToken && StorageUser) {
       api.defaults.headers.Authorization = `Bearer ${cookieToken}`;
 
-      return JSON.parse(StorageUser)
-    }
+      return { 
+        user: JSON.parse(StorageUser), 
+        token: cookieToken 
+      }
+    };
+
+    return {} as IUserData;
   });
 
   const signIn = useCallback(async ({ email, password, isSaveToken }) => {
@@ -70,15 +75,15 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, [userData])
 
   const signOut = useCallback(() => {
-    setUserData(null);
-
     removeCookie('logged_in');
     localStorage.removeItem('@HappyAuth:user');
+
+    setUserData({} as IUserData);
   }, [userData])
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!userData, userData, signIn, signOut  }}
+      value={{ signed: !!userData?.token, userData, signIn, signOut  }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiPlus, FiArrowRight } from 'react-icons/fi';
+import { FiPlus, FiArrowRight, FiLogOut } from 'react-icons/fi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import markerMapImg from '../assets/images/map-marker.svg';
 
 import mapIcon from '../utils/mapIcon';
+import { useAuth } from '../hooks/AuthContext';
 
 import api from '../services/api';
 
@@ -15,6 +16,7 @@ import {
   Header,
   Footer,
   CreateOrphanagesButton,
+  LogOutButton
 } from '../styles/screens/orphanages-map-styles';
 
 interface Orphanage {
@@ -26,6 +28,8 @@ interface Orphanage {
 
 const OrphanagesMap: React.FC = () => {
   const [orphanages, setOrphanages] = useState<Orphanage[]>([]);
+
+  const { signOut } = useAuth();
 
   useEffect(() => {
     api.get('/orphanages').then((response) => {
@@ -48,6 +52,11 @@ const OrphanagesMap: React.FC = () => {
         <Footer>
           <strong>Luziânia</strong>
           <span>Goiás</span>
+
+          <LogOutButton type="button" onClick={signOut}>
+            <FiLogOut size={24} color="#FFF" />
+          </LogOutButton>
+
         </Footer>
       </Aside>
 

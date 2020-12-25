@@ -54,7 +54,7 @@ export const Aside = styled.aside`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  
   h2 {
     font-size: 40px;
     font-weight: 800;
@@ -107,5 +107,29 @@ export const CreateOrphanagesButton = styled.div`
 
   &:hover {
     background: #17d6eb;
+  }
+`;
+
+export const LogOutButton = styled.button`
+  width: 48px;
+  height: 48px;
+
+  margin-top: 20px;
+
+  border: 0;
+
+  background: #12AFCB;
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: #17D6EB;
   }
 `;

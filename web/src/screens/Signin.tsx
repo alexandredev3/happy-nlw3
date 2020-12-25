@@ -1,8 +1,8 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { Link } from 'react-router-dom'
-import { useAuth } from '../hooks/auth';
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useAuth } from '../hooks/AuthContext';
 
 import { 
   SigninPage,
@@ -24,9 +24,11 @@ interface ISigninData {
 export default function Signin() {
   const [isSaveToken, setIsSaveToken] = useState(false);
 
+
   const inputRefs = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
+  const history = useHistory();
 
   const handleCheckBox = useCallback(() => {
     setIsSaveToken(!isSaveToken);
@@ -41,9 +43,8 @@ export default function Signin() {
         password,
         isSaveToken
       })
-      
+
     } catch(error) {
-      alert('Ocorreu um erro inesperado...')
     }
   }, [inputRefs, isSaveToken]);
 

@@ -1,6 +1,7 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import Routes from './routes';
+import AppRoutes from './routes/app.routes';
 
 import AppProvider from './hooks';
 import GlobalStyle from "./styles/GlobalStyle";
@@ -9,12 +10,13 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <GlobalStyle />
+      
       <AppProvider>
-        <Routes />
+        <AppRoutes /> 
       </AppProvider>
-    </>
+    </BrowserRouter>
   );
 }
 

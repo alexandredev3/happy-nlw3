@@ -41,21 +41,28 @@ export default function SignUp() {
       const schema = Yup.object().shape({
         name: Yup
           .string()
-          .required('Nome é obrigatório'),
+          .required('Nome é obrigatório.'),
         email: Yup
           .string()
-          .email('Preencha com um E-mail valido')
+          .email('Preencha com um E-mail valido.')
           .required('E-mail é obrigatório'),
         password: Yup
           .string()
-          .min(8, 'A senha tem que ter no mínimo 8 caracteres')
-          .required('Senha é obrigatório'),
-        confirmPassword: Yup
-          .string()
-          .required('Senha é obrigatório')
+          .min(8, 'A senha tem que ter no mínimo 8 caracteres.')
+          .required('Senha é obrigatório.')
           .test(
             'match', 'Essas senhas não coincidem.', function (value) {
-              const { password } = this.parent
+              const { confirmPassword } = this.parent;
+
+              return value === confirmPassword;
+            }
+          ),
+        confirmPassword: Yup
+          .string()
+          .required('Confirme sua senha.')
+          .test(
+            'match', 'Essas senhas não coincidem.', function (value) {
+              const { password } = this.parent;
             
               return value === password;
             }

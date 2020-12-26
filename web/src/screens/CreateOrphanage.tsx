@@ -8,8 +8,6 @@ import { FormHandles } from '@unform/core'
 
 import mapIcon from '../utils/mapIcon';
 
-import modalImage from '../assets/images/modal-image-register.svg';
-
 import Sidebar from "../components/Sidebar";
 import Input from '../components/Input';
 import ConfirmButton from '../components/Button';
@@ -32,6 +30,14 @@ import {
   Button,
 } from '../styles/screens/create-orphanage';
 
+interface ICreateOrphanages {
+  name: string;
+  about: string;
+  instructions: string;
+  opening_hours: string;
+  whatsapp: string;
+}
+
 export default function CreateOrphanage() {
   const [positionMarker, setPositionMarker] = useState({ 
     latitude: 0, longitude: 0 
@@ -39,15 +45,10 @@ export default function CreateOrphanage() {
   const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [inProgress, setInProgress] = useState(false);
 
   const inputRefs = useRef<FormHandles>(null);
   const modalRef = useRef<IModalHandles>(null);
-
-  // const nameInputRef = useRef<HTMLInputElement>(null);
-  // const whatsappInputRef = useRef<HTMLInputElement>(null);
-  // const aboutInputRef = useRef<HTMLTextAreaElement>(null);
-  // const instructionsInputRef = useRef<HTMLTextAreaElement>(null);
-  // const openingHoursInputRef = useRef<HTMLInputElement>(null);
 
   const history = useHistory();
 
@@ -90,54 +91,49 @@ export default function CreateOrphanage() {
 
   }, [previewImages, images]);
 
-  const handleSubmit = useCallback(async (data) => {
-    // event?.preventDefault();
+  const handleSubmit = useCallback(async (orphanageData: ICreateOrphanages) => {
+    const { 
+      name,
+      about,
+      instructions,
+      opening_hours,
+      whatsapp
+    } = orphanageData;
 
-    // const name = nameInputRef.current?.value;
-    // const whatsapp = whatsappInputRef.current?.value;
-    // const about = aboutInputRef.current?.value;
-    // const instructions = instructionsInputRef.current?.value;
-    // const opening_hours = openingHoursInputRef.current?.value;
+    const { latitude, longitude } = positionMarker;
 
-    // const { latitude, longitude } = positionMarker;
-
-    // if (!name || !whatsapp || !about || !instructions || !opening_hours) {
-    //   return alert("Todos os campos são obrigatorios");
-    // }
-
-    // // FormData = MultiPart Form
-    // const data = new FormData();
+    // FormData = MultiPart Form
+    const data = new FormData();
     
-    // data.append('name', name);
-    // data.append('whatsapp', whatsapp);
-    // data.append('about', about);
-    // data.append('instructions', instructions);
-    // data.append('opening_hours', opening_hours);
+    data.append('name', name);
+    data.append('whatsapp', whatsapp);
+    data.append('about', about);
+    data.append('instructions', instructions);
+    data.append('opening_hours', opening_hours);
 
-    // data.append('latitude', String(latitude));
-    // data.append('longitude', String(longitude));
+    data.append('latitude', String(latitude));
+    data.append('longitude', String(longitude));
 
-    // data.append('open_on_weekends', String(open_on_weekends));
+    data.append('open_on_weekends', String(open_on_weekends));
 
-    // images.forEach((image) => {
-    //   data.append('images', image)
-    // });
+    images.forEach((image) => {
+      data.append('images', image)
+    });
 
-    // try {
-    //   const { push } = history;
+    try {
+      setInProgress(true);
 
-    //   await api.post('/orphanages', data);
+      await api.post('/orphanages', data, {
+        onDownloadProgress: () => setInProgress(false)
+      });
 
-    //   alert("Cadastro realizado com sucesso!");
-    //   push('/app');
-    // } catch(err) {
-    //   alert("Ocorreu um erro inesperado, Tente novamente mais tarde...");
-    //   console.log(err);
-    // }
+      modalRef.current?.handleOpenModal();
+    } catch(err) {
+      alert("Ocorreu um erro inesperado, Tente novamente mais tarde...");
+      console.log(err);
+    }
 
-    modalRef.current?.handleOpenModal();
-
-  }, [inputRefs, modalRef]);
+  }, [inputRefs, modalRef, positionMarker]);
 
   return (
     <PageCreateOrphanage>
@@ -283,6 +279,7 @@ export default function CreateOrphanage() {
           <ConfirmButton
             className="submit__button"
             type="submit"
+            isLoading={inProgress}
           >
             Confirmar
           </ConfirmButton>

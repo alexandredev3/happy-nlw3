@@ -11,7 +11,7 @@ import ResetPasswordController from './app/controllers/ResetPasswordController';
 import uploadConfig from './config/upload';
 
 import authMiddleware from './app/middlewares/auth';
-import adminVerify from './app/middlewares/adminVerify';
+import isAdmin from './app/middlewares/isAdmin';
 
 const routes = Router();
 const upload = multer(uploadConfig);
@@ -30,7 +30,7 @@ routes.get('/orphanages/:orphanage_id', OrphanageController.show);
 routes.post('/orphanages', upload.array('images'), OrphanageController.create);
 
 // Operations that only administrators can do;
-routes.use(adminVerify);
+routes.use(isAdmin);
 
 routes.get('/pending', PendingOrphanagesController.index);
 routes.put('/orphanages/accept/:orphanage_id', PendingOrphanagesController.update);

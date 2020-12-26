@@ -56,35 +56,30 @@ export const AuthProvider: React.FC = ({ children }) => {
   const signIn = useCallback(async ({ email, password, isSaveToken }) => {
     setInProgress(true);
 
-    try {
-      const response = await api.post('/session', {
-        email,
-        password
-      }, {
-        onDownloadProgress: () => {
-          setInProgress(false);
-        }
-      });
-
-      const { user, token } = response.data;
-  
-      setUserData({ user, token });
-  
-      api.defaults.headers.Authorization = `Bearer ${token}`;
-  
-      const dateNow = new Date();
-      const expiresIn = new Date(dateNow.setDate(dateNow.getDate() + 3));
-  
-      if (isSaveToken) {
-        setCookie('logged_in', token, {
-          expires: expiresIn,
-        })
-  
-        localStorage.setItem('@HappyAuth:user', JSON.stringify(user));
+    const response = await api.post('/session', {
+      email,
+      password
+    }, {
+      onDownloadProgress: () => {
+        setInProgress(false);
       }
+    });
 
-    } catch(error) {
-      alert(error)
+    const { user, token } = response.data;
+
+    setUserData({ user, token });
+
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+
+    const dateNow = new Date();
+    const expiresIn = new Date(dateNow.setDate(dateNow.getDate() + 3));
+
+    if (isSaveToken) {
+      setCookie('logged_in', token, {
+        expires: expiresIn,
+      })
+
+      localStorage.setItem('@HappyAuth:user', JSON.stringify(user));
     }
   }, [userData])
 

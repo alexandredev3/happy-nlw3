@@ -7,7 +7,7 @@ export default async (request: Request, response: Response, next: NextFunction) 
 
   jwt.verify(token)
     .then(({ id }) => {
-      request.user = id;
+      request.userId = id;
 
       next();
     })

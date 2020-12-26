@@ -9,11 +9,13 @@ import { useAuth } from '../hooks/AuthContext';
 
 interface RouteProps extends RouteDomProps {
   isPrivate?: boolean;
+  isRestricted?: boolean;
   component: React.ComponentType;
 }
 
 const Route: React.FC<RouteProps> = ({ 
   isPrivate = false,
+  isRestricted = false,
   component: Component,
   ...rest
 }) => {
@@ -23,14 +25,16 @@ const Route: React.FC<RouteProps> = ({
     <RouteDom 
       { ...rest }
       render={({ location }) => {
-        return isPrivate === signed ? (
-          <Component />
-        ) : (
-          <Redirect to={{
-            pathname: isPrivate ? '/signin' : '/app',
-            state: { from: location }
-          }} />
-        )
+        if (isPrivate === signed) {
+          return <Component />
+        } else {
+          return (
+            <Redirect to={{
+              pathname: isPrivate ? '/signin' : '/app',
+              state: { from: location }
+            }} />
+          )
+        }
       }}
     />
   )

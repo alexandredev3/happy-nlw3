@@ -6,7 +6,9 @@ import React, {
   InputHTMLAttributes 
 } from 'react';
 import { useField } from '@unform/core';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiAlertCircle } from 'react-icons/fi';
+
+import ToolTip from '../components/ToolTip';
 
 import {
   Container,
@@ -80,6 +82,7 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
       <Container
         isFilled={isFilled}
         isFocus={isFocus}
+        error={error}
       >
         <Label htmlFor={fieldName}>{ label }</Label>
 
@@ -98,6 +101,11 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
           {...inputProps as unknown as InputProps}
           type={isVisiblePassword ? 'text' : 'password'}
         />
+
+        
+      {error && (
+        <ToolTip message={error} />
+      )}
       </Container>
     );
   }
@@ -107,6 +115,7 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
       isFilled={isFilled}
       isFocus={isFocus}
       isMultiline={multiline}
+      error={error}
     >
       <Label htmlFor={fieldName}>{ label }</Label>
 
@@ -118,6 +127,10 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
         <input
           {...inputProps as unknown as InputProps}
         />
+      )}
+
+      {error && (
+        <ToolTip message={error} />
       )}
     </Container>
   );

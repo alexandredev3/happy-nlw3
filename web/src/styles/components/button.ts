@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const Container = styled.button<any>`
+type Props = {
+  isLoading: boolean;
+}
+
+export const Container = styled.button<Props | any>`
   width: 100%;
   height: 64px;
   border: 0;
@@ -23,4 +28,26 @@ export const Container = styled.button<any>`
   &:hover {
     background: #36CF82;
   }
+
+  ${
+    (props) => props.isLoading 
+      ? css`
+        cursor: not-allowed;
+        opacity: 50%;
+        background: #37C77F;
+      `
+      : css`
+        cursor: pointer;
+        background: #37C77F;
+      `
+  }
 `;
+
+export const AnimatedCircle = styled(motion.div)`
+  svg {
+    stroke-width: 1.2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`

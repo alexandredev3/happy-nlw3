@@ -1,8 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/AuthContext';
+import * as Yup from 'yup';
+
+import setValidationErrors from '../utils/validationErrors';
 
 import { 
   SigninPage,
@@ -27,8 +30,7 @@ export default function Signin() {
 
   const inputRefs = useRef<FormHandles>(null);
 
-  const { signIn } = useAuth();
-  const history = useHistory();
+  const { signIn, inProgress } = useAuth();
 
   const handleCheckBox = useCallback(() => {
     setIsSaveToken(!isSaveToken);
@@ -38,6 +40,22 @@ export default function Signin() {
     const { email, password } = data;
 
     try {
+      inputRefs.current?.setErrors({});
+
+      const schema = Yup.object().shape({
+        email: Yup
+          .string()
+          .email('Preencha com um E-mail valido')
+          .required('E-mail é obrigatório'),
+        password: Yup
+          .string()
+          .required('Senha é obrigatório')
+      })
+
+      await schema.validate(data, {
+        abortEarly: false
+      })
+
       await signIn({
         email,
         password,
@@ -45,6 +63,14 @@ export default function Signin() {
       })
 
     } catch(error) {
+ 
+      if (error instanceof Yup.ValidationError) {
+        const validationErrors = setValidationErrors(error);
+
+        return inputRefs.current?.setErrors(validationErrors);
+      }
+
+      alert(error)
     }
   }, [inputRefs, isSaveToken]);
 
@@ -60,7 +86,7 @@ export default function Signin() {
             <Input
               name="email"
               label="E-mail"
-              type="email"
+              type="text"
             />
 
             <Input
@@ -84,6 +110,7 @@ export default function Signin() {
             <Button 
               className="signin__button"
               type="submit"
+              isLoading={inProgress}
             >
               Entrar
             </Button>

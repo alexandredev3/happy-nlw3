@@ -3,6 +3,7 @@ import React, {
   useContext, 
   useCallback, 
   useState,
+  useMemo
 } from 'react';
 import { useCookies } from 'react-cookie';
 
@@ -24,6 +25,7 @@ interface ISigninCrendials {
 
 interface IAuthContextData {
   signed: boolean;
+  inProgress: boolean;
   userData: IUserData | null;
   signIn(signinCrendials: ISigninCrendials): void;
   signOut(): void;
@@ -49,28 +51,40 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     return {} as IUserData;
   });
+  const [inProgress, setInProgress] = useState(false);
 
   const signIn = useCallback(async ({ email, password, isSaveToken }) => {
-    const response = await api.post('/session', {
-      email,
-      password
-    });
+    setInProgress(true);
 
-    const { user, token } = response.data;
+    try {
+      const response = await api.post('/session', {
+        email,
+        password
+      }, {
+        onDownloadProgress: () => {
+          setInProgress(false);
+        }
+      });
 
-    setUserData({ user, token });
+      const { user, token } = response.data;
+  
+      setUserData({ user, token });
+  
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+  
+      const dateNow = new Date();
+      const expiresIn = new Date(dateNow.setDate(dateNow.getDate() + 3));
+  
+      if (isSaveToken) {
+        setCookie('logged_in', token, {
+          expires: expiresIn,
+        })
+  
+        localStorage.setItem('@HappyAuth:user', JSON.stringify(user));
+      }
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
-
-    const dateNow = new Date();
-    const expiresIn = new Date(dateNow.setDate(dateNow.getDate() + 3));
-
-    if (isSaveToken) {
-      setCookie('logged_in', token, {
-        expires: expiresIn,
-      })
-
-      localStorage.setItem('@HappyAuth:user', JSON.stringify(user));
+    } catch(error) {
+      alert(error)
     }
   }, [userData])
 
@@ -83,7 +97,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!userData?.token, userData, signIn, signOut  }}
+      value={{ signed: !!userData?.token, inProgress, userData, signIn, signOut  }}
     >
       {children}
     </AuthContext.Provider>

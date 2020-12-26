@@ -4,6 +4,7 @@ interface Props {
   isFocus: boolean;
   isFilled: boolean;
   isMultiline?: boolean;
+  error: string | undefined;
 }
 
 const input = css`
@@ -61,12 +62,23 @@ export const Container = styled.div<Props>`
     resize: none;
   }
 
+  .tooltip__container {
+    position: absolute;
+    top: 14px;
+    bottom: 0;
+    right: -45px;
+  }
+
   ${props => props.isFocus && css`
     border: 1px solid #37C77F;
   `}
 
   ${props => props.isFilled && css`
     border: 1px solid #37C77F;
+  `}
+
+  ${props => props.error && css`
+    border: 1px solid #FF669D;
   `}
 `;
 

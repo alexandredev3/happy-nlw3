@@ -4,14 +4,14 @@ interface IValidationError {
   [key: string]: string;
 };
 
-const setValidationErrors = (error: any) => {
+const getValidationErrors = (error: Yup.ValidationError) => {
   const validationErrors: IValidationError = {};
 
-  error.inner.forEach((error: Yup.ValidationError) => {
+  error.inner.forEach((error) => {
     validationErrors[error.path] = error.message;
   });
 
   return validationErrors;
 }
 
-export default setValidationErrors;
+export default getValidationErrors;

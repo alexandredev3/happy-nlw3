@@ -6,7 +6,7 @@ import React, {
   InputHTMLAttributes 
 } from 'react';
 import { useField } from '@unform/core';
-import { FiEye, FiEyeOff, FiAlertCircle } from 'react-icons/fi';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import ToolTip from '../components/ToolTip';
 
@@ -35,6 +35,8 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
   const [isFilled, setIsFilled] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+
+  const isPasswordTypeInput = rest.type === 'password';
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -77,39 +79,6 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
     defaultValue
   }
 
-  if (rest.type === 'password') {
-    return (
-      <Container
-        isFilled={isFilled}
-        isFocus={isFocus}
-        error={error}
-      >
-        <Label htmlFor={fieldName}>{ label }</Label>
-
-        <VisibleButton 
-          onClick={handleToggleVisiblePassword}
-          type="button"
-        >
-          {isVisiblePassword ? (
-            <FiEyeOff size={26} color="#15C3D6" />
-          ) : (
-            <FiEye size={26} color="#8FA7B2" />
-          )}
-        </VisibleButton>
-
-        <input
-          {...inputProps as unknown as InputProps}
-          type={isVisiblePassword ? 'text' : 'password'}
-        />
-
-        
-      {error && (
-        <ToolTip message={error} />
-      )}
-      </Container>
-    );
-  }
-
   return (
     <Container
       isFilled={isFilled}
@@ -119,14 +88,36 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
     >
       <Label htmlFor={fieldName}>{ label }</Label>
 
-      {multiline ? (
+      {multiline && (
         <textarea
           {...inputProps as unknown as TextAreaProps}
         />
-      ) : (
+      )}
+
+      {!isPasswordTypeInput && !multiline && (
         <input
           {...inputProps as unknown as InputProps}
         />
+      )}
+
+      {isPasswordTypeInput && (
+        <>
+          <VisibleButton 
+            onClick={handleToggleVisiblePassword}
+            type="button"
+          >
+            {isVisiblePassword ? (
+              <FiEyeOff size={26} color="#15C3D6" />
+            ) : (
+              <FiEye size={26} color="#8FA7B2" />
+            )}
+          </VisibleButton>
+
+          <input
+            {...inputProps as unknown as InputProps}
+            type={isVisiblePassword ? 'text' : 'password'}
+          />
+        </>
       )}
 
       {error && (

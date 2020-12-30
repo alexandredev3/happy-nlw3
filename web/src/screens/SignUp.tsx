@@ -4,7 +4,7 @@ import { FormHandles } from '@unform/core';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import setValidationErrors from '../utils/validationErrors';
+import getValidationErrors from '../utils/getValidationErrors';
 
 import { 
   SignUpPage,
@@ -92,7 +92,7 @@ export default function SignUp() {
     } catch(error) {
 
       if (error instanceof Yup.ValidationError) {
-        const validationErrors = setValidationErrors(error);
+        const validationErrors = getValidationErrors(error);
 
         return inputRefs.current?.setErrors(validationErrors);
       }

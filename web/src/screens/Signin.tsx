@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../hooks/AuthContext';
 import * as Yup from 'yup';
 
-import setValidationErrors from '../utils/validationErrors';
+import getValidationErrors from '../utils/getValidationErrors';
 
 import { 
   SigninPage,
@@ -65,7 +65,7 @@ export default function Signin() {
     } catch(error) {
  
       if (error instanceof Yup.ValidationError) {
-        const validationErrors = setValidationErrors(error);
+        const validationErrors = getValidationErrors(error);
 
         return inputRefs.current?.setErrors(validationErrors);
       }

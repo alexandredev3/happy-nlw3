@@ -9,7 +9,7 @@ export default class Orphanage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   name: string;
 
   @Column('boolean', {
@@ -20,26 +20,26 @@ export default class Orphanage {
   @Column()
   whatsapp: number;
 
-  @Column()
+  @Column('decimal')
   latitude: number;
 
-  @Column()
+  @Column('decimal')
   longitude: number;
 
-  @Column()
+  @Column('varchar')
   about: string;
 
-  @Column()
+  @Column('varchar')
   instructions: string;
 
-  @Column()
+  @Column('varchar')
   opening_hours: string;
 
-  @Column()
+  @Column('boolean')
   open_on_weekends: boolean;
 
-  @Column()
-  user_id: number;
+  @Column('uuid')
+  user_id: string;
 
   @ManyToOne(() => User, user => user.orphanages)
   @JoinColumn({ name: 'user_id' })

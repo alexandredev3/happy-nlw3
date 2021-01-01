@@ -3,17 +3,17 @@ import { getRepository } from 'typeorm';
 import crypto from 'crypto';
 import { isBefore } from 'date-fns';
 
-import Mail from '../../lib/Queue';
-
 import User from '../models/User';
 import ResetPassword from '../models/ResetPassword';
+
+import Mail from '../../lib/Mail';
 
 class ResetPasswordController {
   async create(request: Request, response: Response) {
     const { email } = request.body;
 
-    const userRespository = getRepository(User);
-    const resetPasswordRepository = getRepository(ResetPassword);
+    const userRespository = getRepository(User, "default");
+    const resetPasswordRepository = getRepository(ResetPassword, "default");
 
     const user = await userRespository.findOne({
       where: { email: email }
@@ -41,11 +41,18 @@ class ResetPasswordController {
     });
     await resetPasswordRepository.save(resetPassword);
 
-    await Mail.add('ResetPasswordMail', {
-      name: user.name,
-      email: user.email,
-      token
-    });
+    const { name } = user;
+
+    await Mail.sendMail({
+      to: `${name} - ${email}`,
+      from: 'happy@happy.com.br',
+      subject: 'Happy - Redefinir Senha',
+      template: 'recovery',
+      ctx: {
+        token,
+        name: name
+      }
+    })
 
     return response.status(204).send();
   }

@@ -18,13 +18,13 @@ export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   name: string;
   
-  @Column()
+  @Column('varchar')
   email: string;
 
-  @Column()
+  @Column('varchar')
   password_hash: string;
 
   @OneToMany(() => Orphanage, orphanage => orphanage.users, {

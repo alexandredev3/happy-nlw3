@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { 
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useField } from '@unform/core';
 import { FiPlus, FiX } from "react-icons/fi";
 
@@ -21,7 +27,9 @@ interface RefProps {
 
 type InputProps = JSX.IntrinsicElements['input'] & Props;
 
-const InputFile: React.FC<InputProps> = ({ name, ...rest }) => {
+const InputFile: React.FC<InputProps> = ({ 
+  name, ...rest 
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
@@ -45,15 +53,18 @@ const InputFile: React.FC<InputProps> = ({ name, ...rest }) => {
   }, [preview]);
 
   const handleDeletePreview = useCallback((index: number) => {
-    const deleteImage = preview.findIndex((_, previewIndex) => previewIndex === index);
+    const deleteImagePreview = preview.findIndex((_, previewIndex) => previewIndex === index);
 
-    if (deleteImage >= 0) {
+    if (deleteImagePreview >= 0) {
       const filteredImagesPreview = preview.filter((_, previewIndex) => previewIndex !== index);
 
       setPreview(filteredImagesPreview)
     }
-  }, [preview])
+  }, [preview]);
 
+  // colocar files em um state,
+  // depois tentar passar esse state aqui no registerFiled, no path,
+  // para ter uma opção de excluir a imagem.
   useEffect(() => {
     registerField({
       name: fieldName,

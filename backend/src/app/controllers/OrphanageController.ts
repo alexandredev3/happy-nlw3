@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 // estamos pegando tudo que esta dentro do yup e colocando dentro de Yup, porque la não tem o export default.
 
 import Orphanage from '../models/Orphanage';
+import Image from '../models/Image';
 
 import orphanageView from '../../views/orphanages_view';
 
@@ -25,22 +26,35 @@ class OrphanageController {
   async show(request: Request, response: Response) {
     const { orphanage_id } = request.params;
 
-    const orphanagesRepository = getRepository(Orphanage);
+    const orphanagesRepository = getRepository(Orphanage, "default");
 
     // ele vai tentar encontrar se não vai retornar um erro.
-    const orphanage = await orphanagesRepository.findOneOrFail(orphanage_id, {
-      relations: ['images']
+    const orphanage = await orphanagesRepository.findOne(orphanage_id, {
+      relations: ['images'],
+      where: {
+        isPending: false
+      }
     });
+
+    if (!orphanage) {
+      return response.status(400).json({
+        status: 400,
+        message: 'Orphanage not found.'
+      })
+    }
 
     return response.json(orphanageView.renderOne(orphanage));
   }
 
   async index(request: Request, response: Response) {
-    const orphanagesRepository = getRepository(Orphanage);
+    const orphanagesRepository = getRepository(Orphanage, "default");
 
     // se quiser fazer algum tipo de condição, coloque dentro do find.
     const orphanages = await orphanagesRepository.find({
-      relations: ['images', 'users'] // ultilizamos isso quando queremos retorna uma tabela relacionada.
+      relations: ['images', 'users'],
+      where: {
+        isPending: false
+      }
     });
     
     return response.json(orphanageView.renderMany(orphanages));
@@ -59,7 +73,7 @@ class OrphanageController {
     } = request.body;
   
     // colocamos o nosso model como parametro no getRepository, agora temos todos os metodos no orphanagesRepository
-    const orphanageRepository = getRepository(Orphanage);
+    const orphanageRepository = getRepository(Orphanage, "default");
   
     // estou forçando a tipagem do request.files, falando que ele e uma array de arquivos.
     // apenas um "hackizinho" quando for trabalhar com multiplos arquivos.
@@ -129,10 +143,11 @@ class OrphanageController {
       about,
       instructions,
       opening_hours,
-      open_on_weekends
+      open_on_weekends,
     } = request.body;
 
     const orphanageRepository = getRepository(Orphanage);
+    const imageRepository = getRepository(Image);
 
     const orphanageExists = await orphanageRepository.findOne(orphanage_id);
 
@@ -142,6 +157,14 @@ class OrphanageController {
       });
     }
 
+    const requestImages = request.files as unknown as Express.Multer.File[];
+
+    const images = requestImages.map((image) => {
+      return {
+        path: image.filename
+      }
+    });
+
     const data = {
       name,
       whatsapp,
@@ -150,7 +173,7 @@ class OrphanageController {
       about,
       instructions,
       opening_hours,
-      open_on_weekends
+      open_on_weekends,
     }
 
     const schema = Yup.object().shape({
@@ -166,7 +189,16 @@ class OrphanageController {
 
     await schema.validate(data, {
       abortEarly: false
-    })
+    });
+
+    const newImages = images.map((image) => {
+      return imageRepository.create({
+        path: image.path,
+        orphanage_id
+      })
+    });
+
+    await imageRepository.save(newImages);
 
     await orphanageRepository.update(orphanage_id, data);
 

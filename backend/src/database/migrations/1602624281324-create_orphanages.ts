@@ -23,7 +23,7 @@ export class createOrphanages1602624281324 implements MigrationInterface {
         },
         {
           name: 'user_id',
-          type: 'integer',
+          type: 'uuid',
           isNullable: false
         },
         {

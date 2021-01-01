@@ -20,7 +20,7 @@ export class createImages1603199433719 implements MigrationInterface {
         },
         {
           name: 'orphanage_id',
-          type: 'integer'
+          type: 'uuid'
         }
       ],
       // agora vai nossas chaves estrageiras

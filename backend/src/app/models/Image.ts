@@ -7,11 +7,11 @@ export default class Image {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   path: string;
 
-  @Column()
-  orphanage_id: number;
+  @Column('uuid')
+  orphanage_id: string;
 
   @ManyToOne(() => Orphanage, orphanage => orphanage.images)
   @JoinColumn({ name: 'orphanage_id' })

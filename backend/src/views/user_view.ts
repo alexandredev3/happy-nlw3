@@ -3,13 +3,15 @@ import User from '../app/models/User';
 export default {
   render(user: User) {
     const {
+      id,
       name,
-      email,
+      isAdmin
     } = user;
 
     return {
+      id,
       name,
-      email
+      isAdmin
     }
   }
 }

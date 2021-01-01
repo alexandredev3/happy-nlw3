@@ -8,17 +8,17 @@ export default class ResetPassword {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar')
   token: string;
 
   @Column()
   expires_on: Date;
 
-  @Column()
+  @Column('boolean')
   was_used: boolean;
 
-  @Column()
-  user_id: number;
+  @Column('uuid')
+  user_id: string;
 
   @OneToOne(() => User, user => user.reset_password)
   @JoinColumn({ name: 'user_id' })

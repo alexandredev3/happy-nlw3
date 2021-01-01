@@ -35,6 +35,10 @@ export const Main = styled.main`
     .submit__button {
       margin-top: 64px;
     }
+
+    .input__name, .input__instructions {
+      margin-top: 62px;
+    }
   }
 `;
 
@@ -60,9 +64,9 @@ export const Legend = styled.legend`
 `;
 
 export const InputBlock = styled.div`
-  div:first-child {
+  /* div:first-child {
     margin-top: 62px;
-  }
+  } */
 
   & + & {
     margin-top: 54px;

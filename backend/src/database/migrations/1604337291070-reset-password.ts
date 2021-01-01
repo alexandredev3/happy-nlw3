@@ -29,7 +29,7 @@ export class resetPassword1604337291070 implements MigrationInterface {
         },
         {
           name: 'user_id',
-          type: 'integer'
+          type: 'uuid'
         }
       ],
 

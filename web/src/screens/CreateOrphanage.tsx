@@ -51,7 +51,7 @@ export default function CreateOrphanage() {
   const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [inProgress, setInProgress] = useState(false);
 
-  const inputRefs = useRef<FormHandles>(null);
+  const inputRefs = useRef<FormHandles | any>(null);
   const modalRef = useRef<IModalHandles>(null);
 
   const handleMapClick = useCallback((event: LeafletMouseEvent) => {
@@ -277,7 +277,9 @@ export default function CreateOrphanage() {
               )
             }
 
-            <InputBlock>
+            <InputBlock
+              className="input__name"
+            >
               <Input
                 name="name"
                 label="Nome"
@@ -305,7 +307,7 @@ export default function CreateOrphanage() {
 
             <InputBlock>
               <Label htmlFor="images">Fotos</Label>
-              <InputFile 
+              <InputFile
                 name="files"
               />
             </InputBlock>
@@ -314,7 +316,9 @@ export default function CreateOrphanage() {
           <Fieldset>
             <Legend>Visitação</Legend>
 
-            <InputBlock>
+            <InputBlock
+              className="input__instructions"
+            >
               <Input 
                 name="instructions"
                 label='Instruções'

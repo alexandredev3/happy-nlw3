@@ -15,11 +15,18 @@ export const {
 // Postgres Connection;
 export const { 
   TYPEORM_TYPE,
+  TYPEORM_URL,
   TYPEORM_HOST,
   TYPEORM_PORT,
   TYPEORM_USERNAME,
   TYPEORM_PASSWORD,
   TYPEORM_DATABASE,
+} = process.env;
+
+// Mongo Connection;
+export const {
+  MONGO_TYPE,
+  MONGO_URL
 } = process.env;
 
 // Redis Connection;

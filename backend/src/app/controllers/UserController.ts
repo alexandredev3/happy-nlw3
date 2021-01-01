@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 
 import User from '../models/User';
 
+import user_view from '../../views/user_view';
+
 class UserController {
   async create(request: Request, response: Response) {
     const { 
@@ -52,6 +54,21 @@ class UserController {
     await userRepository.save(user);
 
     return response.status(204).send();
+  }
+  async show(request: Request, response: Response) {
+    const user_id = request.userId;
+
+    const userRepository = getRepository(User);
+
+    const user = await userRepository.findOne(user_id);
+
+    if (!user) {
+      return response.status(400).json({
+        error: 'User does not exists.'
+      });
+    }
+
+    return response.status(200).json(user_view.render(user));
   }
 }
 

@@ -8,8 +8,6 @@ export const ImagesContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 16px;
-
-
 `;
 
 export const NewImageButton = styled.label<Props>`

@@ -1,30 +1,32 @@
 import React from 'react';
 import ReactToolTip from 'react-tooltip';
-import { FiAlertCircle } from 'react-icons/fi';
 
 import { Container } from '../styles/components/tooltip';
 
 interface Props {
-  message: string;
+  message: any;
+  backgroundColor?: string;
 }
 
-const ToolTip: React.FC<Props> = ({ message }) => {
+const ToolTip: React.FC<Props> = ({ 
+  message,
+  backgroundColor = '#FF6690',
+  children
+}) => {
   return (
     <Container className="tooltip__container">
       <p 
         data-tip={message} 
       >
-        <FiAlertCircle 
-          color="#FF669D" 
-          size={32} 
-        />
+        {children}
       </p>
       <ReactToolTip 
         effect="solid" 
         place="top"
         type="error"
         className="tooltip__content"
-        arrowColor="#FF669D"
+        arrowColor={backgroundColor}
+        backgroundColor={backgroundColor}
       />
     </Container>
   );

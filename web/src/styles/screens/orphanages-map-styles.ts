@@ -68,6 +68,7 @@ export const Aside = styled.aside`
   }
 `;
 
+
 export const Header = styled.header`
 
 `;
@@ -131,5 +132,54 @@ export const LogOutButton = styled.button`
 
   &:hover {
     background: #17D6EB;
+  }
+`;
+
+export const NotificationButton = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 40px;
+
+  z-index: 10;
+
+  width: 64px;
+  height: 64px;
+  background: #15c3d6;
+  border-radius: 28px;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+
+  > a {
+    display: flex;
+    align-items: center;
+  }
+
+  transition: background 0.2s;
+
+  &:hover {
+    background: #17d6eb;
+  }
+
+  cursor: pointer;
+`;
+
+export const UnreadNotificationsText = styled.div`
+  position: absolute;
+  top: 14px;
+  right: 30px;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  background: #15c3d6;
+  color: #FFF;
+  width: 28px;
+  height: 20px;
+  border-radius: 20px;
+
+  > a {
+    padding: 10px;
   }
 `;

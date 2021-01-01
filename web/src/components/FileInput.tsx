@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { useField } from '@unform/core';
-import { FiPlus, FiX } from "react-icons/fi";
+import { FiPlus, FiX, FiAlertCircle } from "react-icons/fi";
 
 import ToolTip from '../components/ToolTip';
 
@@ -116,7 +116,14 @@ const InputFile: React.FC<InputProps> = ({
       />
 
       {
-        error && <ToolTip message={error} />
+        error && (
+          <ToolTip message={error}>
+            <FiAlertCircle
+              color="#FF669D" 
+              size={32} 
+            />
+          </ToolTip>
+        )
       }
       
     </ImagesContainer>

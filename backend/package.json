@@ -5,10 +5,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsnd --transpile-only --ignore-watch node_modules ./src/server.ts",
-    "queue": "tsnd --transpile-only --ignore-watch node_modules ./src/queue.ts",
+    "start": "node ./src/server.js",
+    "queue:dev": "tsnd --transpile-only --ignore-watch node_modules ./src/queue.ts",
+    "queue": "node ./src/queue.ts",
     "typeorm": "tsnd ./node_modules/typeorm/cli.js --config ./ormconfig.ts",
-    "seed:run": "tsnd ./node_modules/typeorm-seeding/dist/cli.js seed",
-    "debug": "ts-node-dev --inspect -- ./src/server.ts"
+    "migrations:run": "typeorm migration:run",
+    "seed:run:dev": "tsnd ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "seed:run": "node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -25,7 +28,7 @@
     "nodemailer-pug-engine": "^1.0.2",
     "pg": "^8.4.1",
     "sqlite3": "^5.0.0",
-    "typeorm": "^0.2.28",
+    "typeorm": "^0.3.0-rc.21",
     "typeorm-seeding": "^1.6.1",
     "yup": "^0.29.3"
   },

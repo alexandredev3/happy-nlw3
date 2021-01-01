@@ -5,6 +5,7 @@ database.sqlite
 data.sqlite
 private-key.pem
 public-key.pem
+dist
 
 uploads/*
 !/uploads/.gitkeep

@@ -18,6 +18,7 @@ import PendingOrphanagesDetails from '../screens/PendingOrphanagesDetails';
 import ForgotPassword from '../screens/ForgotPassword';
 import ResetPassword from '../screens/ResetPassword';
 import EditOrphanages from '../screens/EditOrphanages';
+import Notifications from '../screens/Notifications';
 
 const AppRoutes: React.FC = () => (
   <Switch>
@@ -25,6 +26,7 @@ const AppRoutes: React.FC = () => (
     <Route path="/signin" exact component={Signin} />
     <Route path="/signup" component={SignUp} />
     <Route path="/app" component={OrphanagesMap} isPrivate />
+    <Route path="/notifications" component={Notifications} isPrivate />
     <Route path="/signin/password/forgot" component={ForgotPassword} />
     <Route path="/password/reset" component={ResetPassword} />
     <Route path="/orphanages/create" component={CreateOrphanage} isPrivate />

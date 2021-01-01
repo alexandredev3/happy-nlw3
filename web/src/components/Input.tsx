@@ -6,7 +6,7 @@ import React, {
   InputHTMLAttributes 
 } from 'react';
 import { useField } from '@unform/core';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiAlertCircle } from 'react-icons/fi';
 
 import ToolTip from '../components/ToolTip';
 
@@ -121,7 +121,12 @@ const Input: React.FC<InputProps | TextAreaProps> = ({
       )}
 
       {error && (
-        <ToolTip message={error} />
+        <ToolTip message={error}>
+          <FiAlertCircle 
+            color="#FF669D" 
+            size={32} 
+          />
+        </ToolTip>
       )}
     </Container>
   );

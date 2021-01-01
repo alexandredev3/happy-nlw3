@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiArrowRight, FiLogOut } from 'react-icons/fi';
+import { MdNotifications } from 'react-icons/md';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import markerMapImg from '../assets/images/map-marker.svg';
 
 import mapIcon from '../utils/mapIcon';
+
 import { useAuth } from '../hooks/AuthContext';
+import { useNotification } from '../hooks/NotificationContext';
+
+import ToolTip from '../components/ToolTip';
 
 import api from '../services/api';
 
@@ -16,7 +21,9 @@ import {
   Header,
   Footer,
   CreateOrphanagesButton,
-  LogOutButton
+  LogOutButton,
+  NotificationButton,
+  UnreadNotificationsText,
 } from '../styles/screens/orphanages-map-styles';
 
 interface Orphanage {
@@ -28,6 +35,8 @@ interface Orphanage {
 
 const OrphanagesMap: React.FC = () => {
   const [orphanages, setOrphanages] = useState<Orphanage[]>([]);
+
+  const { count } = useNotification();
 
   const { signOut } = useAuth();
 
@@ -42,6 +51,7 @@ const OrphanagesMap: React.FC = () => {
   return (
     <PageMap>
       <Aside>
+
         <Header>
           <img src={markerMapImg} alt="happy"/>
 
@@ -95,6 +105,24 @@ const OrphanagesMap: React.FC = () => {
           )
         })}
       </Map>
+
+      <NotificationButton>
+        <Link to="/notifications">
+          {
+            count && (
+              <ToolTip
+                message={`Você tem ${count} nova notificações.`}
+                backgroundColor="#17d6eb"
+              >
+                <UnreadNotificationsText>
+                  <span>{ count }</span>
+                </UnreadNotificationsText>
+              </ToolTip>
+            )
+          }
+          <MdNotifications size={34} color="#FFD666" />
+        </Link>
+      </NotificationButton>
 
       <CreateOrphanagesButton>
         <Link to="/orphanages/create">

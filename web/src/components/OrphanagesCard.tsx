@@ -64,18 +64,18 @@ const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) 
           { isPendingOrphanages ? (
             <EditButton>
               <Link to="pending-orphanages/details">
-                <FiArrowRight color="#15C3D6" size={20} />
+                <FiArrowRight color="#15C3D6" size={22} />
               </Link>
             </EditButton>
           ) : (
             <>
               <EditButton>
                 <Link to="orphanages/update">
-                  <FiEdit3 color="#15C3D6" size={20} />
+                  <FiEdit3 color="#15C3D6" size={22} />
                 </Link>
               </EditButton>
               <DeleteButton onClick={handleDeleteOrphanage}>
-                <FiTrash color="#15C3D6" size={20} />
+                <FiTrash color="#15C3D6" size={22} />
               </DeleteButton>
             </>
           ) }

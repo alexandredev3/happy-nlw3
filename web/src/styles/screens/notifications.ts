@@ -1,18 +1,4 @@
-import styled, { css } from 'styled-components';
-
-const ButtonStyles = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 44px;
-  height: 44px;
-  background: #EBF2F5;
-
-  border-radius: 16px;
-
-  cursor: pointer;
-`;
+import styled from 'styled-components';
 
 export const NotificationsPage = styled.div`
   display: flex;
@@ -44,8 +30,4 @@ export const Header = styled.div`
 
 export const Main = styled.div`
   margin-top: 38px;
-
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 24px;
 `;

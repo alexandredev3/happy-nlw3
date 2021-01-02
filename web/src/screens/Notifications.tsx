@@ -29,6 +29,7 @@ export default function Notifications() {
                 <NotificationCard
                   key={notification._id}
                   id={notification._id}
+                  createAt={notification.createdAt}
                   title={notification.title}
                   content={notification.content}
                   read={notification.read}

@@ -13,6 +13,7 @@ interface INotification {
   title: string;
   content: string;
   read: boolean;
+  createdAt: Date;
 }
 
 interface INotificationContext {

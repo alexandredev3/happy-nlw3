@@ -4,6 +4,10 @@ interface Props {
   read: boolean;
 }
 
+interface DotProps {
+  active: boolean;
+}
+
 const ButtonStyles = css`
   display: flex;
   align-items: center;
@@ -20,37 +24,28 @@ const ButtonStyles = css`
 
 export const NotificationContainer = styled.div`
   display: flex;
-  align-items: column;
+  align-items: center;
+
+  & + & {
+    margin-top: 8px;
+  }
 `;
 
 export const NotificationPreview = styled.div<Props>`
-  display: flex;
-  align-items: center;
-
   padding: 18px;
   font-size: 14px;
   color: #4D6F80;
 
   max-height: 300px;
-  width: 450px;
-  height: 80%;
-
+  width: 100%;
+  height: 70%;
 
   border-radius: 20px;
 
   background: #FFFF;
 
-  > h3 {
-    font-size: 19px;
-    margin-right: 12px;
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
-  > p {
-    margin-top: 30px;
+  > span {
+    font-size: 18px;
   }
 
   ${(props) => props.read 
@@ -64,17 +59,46 @@ export const NotificationPreview = styled.div<Props>`
     ` }
 `;
 
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > p {
+    margin-top: 30px;
+  }
+
+  > h3 {
+    font-size: 21px;
+    margin-right: 12px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+`;
+
+export const Dot = styled.div<DotProps>`
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  margin-right: 14px;
+
+  background: ${(props) => props.active ? '#37C77F' : '#9CB0BB'};
+`;
+
 export const Notification = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: column;
 
   padding: 18px;
   font-size: 14px;
   color: #4D6F80;
 
   max-height: 300px;
-  width: 450px;
+  width: 100%;
 
   border: 1px solid #D3E2E5;
   border-radius: 20px;
@@ -82,14 +106,21 @@ export const Notification = styled.div`
   background: #FFFF;
 
   > h3 {
-    font-size: 19px;
+    font-size: 21px;
+    margin-top: 8px;
+  }
+
+  > span {
+    font-weight: bold;
+    font-size: 18px;
   }
 
   > p {
-    font-size: 16px;
-    line-height: 18px;
+    width: 90%;
+    font-size: 18px;
+    line-height: 26px;
 
-    margin-top: 4px;
+    margin-top: 8px;
     margin-bottom: 8px;
   }
 `;

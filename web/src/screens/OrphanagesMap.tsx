@@ -10,6 +10,7 @@ import mapIcon from '../utils/mapIcon';
 
 import { useAuth } from '../hooks/AuthContext';
 import { useNotification } from '../hooks/NotificationContext';
+import { useDashboard } from '../hooks/DashboardContext';
 
 import ToolTip from '../components/ToolTip';
 
@@ -22,6 +23,7 @@ import {
   Footer,
   CreateOrphanagesButton,
   LogOutButton,
+  DashboardButton,
   NotificationButton,
   UnreadNotificationsText,
 } from '../styles/screens/orphanages-map-styles';
@@ -37,8 +39,10 @@ const OrphanagesMap: React.FC = () => {
   const [orphanages, setOrphanages] = useState<Orphanage[]>([]);
 
   const { count } = useNotification();
-
   const { signOut } = useAuth();
+  const { isAdmin } = useDashboard();
+
+  console.log(isAdmin)
 
   useEffect(() => {
     api.get('/orphanages').then((response) => {
@@ -105,6 +109,16 @@ const OrphanagesMap: React.FC = () => {
           )
         })}
       </Map>
+
+      {
+        isAdmin && (
+          <DashboardButton>
+            <Link to="/dashboard/orphanages">
+              Acesso Restrito
+            </Link>
+          </DashboardButton>
+        )
+      }
 
       <NotificationButton>
         <Link to="/notifications">

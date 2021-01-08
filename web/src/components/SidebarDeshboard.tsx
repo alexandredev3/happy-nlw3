@@ -1,19 +1,18 @@
 import React from 'react';
-import { FiPower, FiMapPin, FiAlertCircle } from "react-icons/fi";
+import { FiMapPin, FiAlertCircle } from "react-icons/fi";
 import { Link, useHistory } from 'react-router-dom';
 
 import mapMarkerImg from '../assets/images/map-marker.svg';
+
+import BackButton from '../components/BackButton';
 
 import {
   Aside,
   Footer,
   Main,
-  Button
 } from '../styles/components/sidebar-dashboard';
 
 const Sidebar: React.FC = () => {
-  const { goBack } = useHistory();
-
   return (
     <Aside>
       <img src={mapMarkerImg} alt="Happy" />
@@ -28,9 +27,7 @@ const Sidebar: React.FC = () => {
       </Main>
 
       <Footer>
-        <Button type="button" onClick={goBack}>
-          <FiPower size={24} color="#FFF" />
-        </Button>
+        <BackButton />
       </Footer>
    </Aside>
   );

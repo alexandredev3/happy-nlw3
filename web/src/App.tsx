@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import AppRoutes from './routes/App.routes';
+import AppRoutes from './routes';
 
-import AppContext from './hooks';
+import AppContextPublic from './hooks/PublicProvider';
 
 import GlobalStyle from "./styles/GlobalStyle";
 // Essa e a estilização que ja vem com o Leaflet.
@@ -14,9 +14,9 @@ function App() {
     <BrowserRouter>
       <GlobalStyle />
       
-      <AppContext>
-        <AppRoutes /> 
-      </AppContext>
+      <AppContextPublic>
+        <AppRoutes />
+      </AppContextPublic>
     </BrowserRouter>
   );
 }

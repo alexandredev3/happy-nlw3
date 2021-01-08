@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AuthProvider } from './AuthContext';
 
-const AppProvider: React.FC = ({ children }) => {
+const PublicProvider: React.FC = ({ children }) => {
   return (
     <AuthProvider>
       {children}
@@ -10,4 +10,4 @@ const AppProvider: React.FC = ({ children }) => {
   )
 }
 
-export default AppProvider;
+export default PublicProvider;

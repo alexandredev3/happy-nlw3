@@ -43,25 +43,11 @@ export const Main = styled.main`
 `;
 
 export const Footer = styled.footer`
-  > a {
-    width: 48px;
-    height: 48px;
-
-    border: 0;
-
+  .button__container {
     background: #12AFCB;
-    border-radius: 16px;
 
-    cursor: pointer;
-
-    transition: background-color 0.2s;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-      background: #17D6EB;
+    svg {
+      stroke: #FFFF;
     }
   }
 `;

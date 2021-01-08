@@ -1,12 +1,11 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import PrivateRoute from './Private.routes';
 import PublicRoute from './Public.routes';
 import RestrictedRoute from './Restricted.routes';
 
-import { DashboardContext } from '../hooks/DashboardContext';
-import { NotificationProvider } from '../hooks/NotificationContext';
+import AppContextPrivate from '../hooks/PrivateProvider';
 
 import Landing from '../screens/Landing';
 import OrphanagesMap from '../screens/OrphanagesMap';
@@ -29,19 +28,17 @@ const AppRoutes: React.FC = () => (
     <PublicRoute path="/signup" component={SignUp} />
     <PublicRoute path="/signin/password/forgot" component={ForgotPassword} />
     <PublicRoute path="/password/reset" component={ResetPassword} />
-    <NotificationProvider>
+    <AppContextPrivate>
       <PrivateRoute path="/app" component={OrphanagesMap} />
       <PrivateRoute path="/notifications" component={Notifications} />
       <PrivateRoute path="/orphanages/create" component={CreateOrphanage} />
       <PrivateRoute path="/orphanages/:id" component={Orphanage} />
-    </NotificationProvider>
-    <DashboardContext>
       <RestrictedRoute path="/dashboard/orphanages" exact component={Dashboard} />
       <RestrictedRoute path="/dashboard/pending-orphanages" exact component={PendingOrphanages} />
       <RestrictedRoute path="/dashboard/pending-orphanages/details" component={PendingOrphanagesDetails} />
       <RestrictedRoute path="/dashboard/orphanages/update" component={EditOrphanages} />
-    </DashboardContext>
+    </AppContextPrivate>
   </Switch>
-)
+);
 
 export default AppRoutes;

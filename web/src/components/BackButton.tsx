@@ -17,6 +17,7 @@ const BackButton: React.FC<BackButtonProps> = ({ ...rest }) => {
   return (
     <Container
       {...props as BackButtonProps}
+      className="button__container"
     >
       <FiArrowLeft
         onClick={goBack}

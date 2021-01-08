@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   Route as RouteDom,
   RouteProps as RouteDomProps,
@@ -17,25 +17,33 @@ const RouteRestricted: React.FC<RouteProps> = ({
   children,
   ...rest
 }) => {
-  const { error, pendingOrphanages } = useDashboard();
+  const { isAdmin } = useDashboard();
   const location = useLocation();
 
-  if (error) {
+  const path = location.pathname === '/dashboard/orphanages'; 
+
+  if (!isAdmin) {
     return (
-      <Redirect 
-        to={{
-          pathname: error ? '/app' : '/dashboard/orphanages',
-          state: { from: location }
-        }}
-      />
+      <>
+        {
+          path && (
+            <Redirect
+              to={{
+                pathname: path ? '/app' : undefined,
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      </>
     );
   }
 
   return (
     <RouteDom 
       { ...rest }
-      render={({ location }) => {
-        if (!!pendingOrphanages) {
+      render={() => {
+        if (isAdmin) {
           return <Component />
         }
       }}

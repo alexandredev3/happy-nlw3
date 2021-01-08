@@ -27,17 +27,17 @@ interface RestrictedContext {
   pendingOrphanages: Orphanages[] | null;
   pendingOrphanagesCount: number;
   orphanagesCount: number;
-  error: string;
+  isAdmin: boolean;
 }
 
-const DashboardProvider = createContext<RestrictedContext>({} as RestrictedContext);
+const DashboardContext = createContext<RestrictedContext>({} as RestrictedContext);
 
-export const DashboardContext: React.FC = ({ children }) => {
+export const DashboardProvider: React.FC = ({ children }) => {
   const [orphanages, setOrphanages] = useState<Orphanages[] | null>(null);
   const [pendingOrphanages, setPendingOrphanages] = useState<Orphanages[] | null>(null);
   const [pendingOrphanagesCount, setPendingOrphanagesCount] = useState(0);
   const [orphanagesCount, setOrphangesCount] = useState(0);
-  const [error, setError] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const getAllPendingOrphanages = api.get('/dashboard/orphanages');
   const getAllOrphanages = api.get('/orphanages');
@@ -56,32 +56,31 @@ export const DashboardContext: React.FC = ({ children }) => {
 
         setPendingOrphanages(pendingOrphanagesData);
         setOrphanages(orphanagesData);
+        setIsAdmin(true);
       })
-      .catch((error) => {
-        alert("Você não tem permissão para acessar essa pagina.");
-
-        return setError(error)
+      .catch(() => {
+        setIsAdmin(false)
       });
   }, []);
 
 
   return (
-    <DashboardProvider.Provider 
+    <DashboardContext.Provider 
       value={{
         orphanages,
         pendingOrphanages,
         pendingOrphanagesCount,
         orphanagesCount,
-        error
+        isAdmin
       }}
     >
       { children }
-    </DashboardProvider.Provider>
+    </DashboardContext.Provider>
   )
 }
 
 export const useDashboard = () => {
-  const context = useContext(DashboardProvider);
+  const context = useContext(DashboardContext);
 
   if (!context) {
     throw new Error(

@@ -135,6 +135,40 @@ export const LogOutButton = styled.button`
   }
 `;
 
+export const DashboardButton = styled.div`
+  position: absolute;
+  right: 124px;
+  top: 45px;
+
+  z-index: 10;
+
+  width: 222px;
+  height: 56px;
+  background: #15c3d6;
+  border-radius: 28px;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+
+  > a {
+    color: #FFFF;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 15px;
+  }
+
+  transition: background 0.2s;
+
+  &:hover {
+    background: #17d6eb;
+  }
+
+  cursor: pointer;
+`;
+
 export const NotificationButton = styled.div`
   position: absolute;
   right: 40px;
@@ -154,6 +188,7 @@ export const NotificationButton = styled.div`
   > a {
     display: flex;
     align-items: center;
+    padding: 15px;
   }
 
   transition: background 0.2s;

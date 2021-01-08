@@ -7,10 +7,14 @@ import {
   Main,
 } from '../styles/screens/dashboard';
 
+import { useDashboard } from '../hooks/DashboardContext';
+
 import Sidebar from '../components/SidebarDeshboard';
-import PendingOrphanagesCard from '../components/OrphanagesCard';
+import RegisteredOrphanages from '../components/OrphanagesCard';
 
 export default function Dashboard() {
+  const { orphanages, orphanagesCount } = useDashboard();
+
   return (
     <DashboardPage>
       <Sidebar />
@@ -18,12 +22,24 @@ export default function Dashboard() {
       <Content>
         <Header>
           <h1>Orfanatos Cadastrados</h1>
-          <span>2 orfanatos</span>
+          <span>{ orphanagesCount } orfanatos</span>
         </Header>
         <Main>
-          <PendingOrphanagesCard />
-          <PendingOrphanagesCard />
-          <PendingOrphanagesCard />
+          { orphanages?.map(({ 
+            id,
+            name,
+            latitude,
+            longitude 
+          }) => {
+            return (
+              <RegisteredOrphanages
+                key={id}
+                title={name}
+                latitude={latitude}
+                longitude={longitude}
+              />
+            )
+          }) }
         </Main>
       </Content>
     </DashboardPage>

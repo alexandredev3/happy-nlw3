@@ -2,20 +2,18 @@ import React from 'react';
 import { 
   Route as RouteDom,
   RouteProps as RouteDomProps,
-  Redirect,
+  Redirect
 } from 'react-router-dom';
 
 import { useAuth } from '../hooks/AuthContext';
 
 interface RouteProps extends RouteDomProps {
   isPrivate?: boolean;
-  isRestricted?: boolean;
   component: React.ComponentType;
 }
 
-const Route: React.FC<RouteProps> = ({ 
+const RouteApp: React.FC<RouteProps> = ({ 
   isPrivate = false,
-  isRestricted = false,
   component: Component,
   ...rest
 }) => {
@@ -40,4 +38,4 @@ const Route: React.FC<RouteProps> = ({
   )
 }
 
-export default Route;
+export default RouteApp;

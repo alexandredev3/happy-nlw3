@@ -3,7 +3,6 @@ import React, {
   useContext, 
   useCallback, 
   useState,
-  useMemo
 } from 'react';
 import { useCookies } from 'react-cookie';
 

@@ -27,39 +27,37 @@ const NotificationContext = createContext<INotificationContext>({} as INotificat
 
 export const NotificationProvider: React.FC = ({ children }) => {
   const [notifications, setNotifications] = useState<INotification[]>([]);
-  const [count, setCount] = useState<string | number | null>("0");
+  const [count, setCount] = useState<string | number | null>(null);
 
   // perhaps the data is not put into state with socket io.
   // if it doesn't work, try another approach...
   useEffect(() => {
-    api.get('/notifications')
+      api.get('/notifications')
       .then((response) => {
         const { data } = response;
 
-        return setNotifications(data);
+        setNotifications(data);
+
+        const unreadNotifications = notifications.filter((notification) => {
+          return notification.read === false
+        });
+    
+        const count = unreadNotifications.length;
+    
+        if (count > 9) {
+          return setCount("9+");
+        }
+    
+        if (count === 0) {
+          return setCount(null)
+        }
+    
+        setCount(count);
       })
-      .catch(() => {
-        return alert("Ocorreu um erro no carregamento das notificações, tente novamente mais tarde.");
+      .catch((err) => {
+        return console.log(err);
       })
   }, []);
-
-  useEffect(() => {
-    const unreadNotifications = notifications.filter((notification) => {
-      return notification.read === false
-    });
-
-    const count = unreadNotifications.length;
-
-    if (count > 9) {
-      return setCount("9+");
-    }
-
-    if (count === 0) {
-      return setCount(null)
-    }
-
-    setCount(count);
-  }, [notifications]);
 
   // avoid many requests to the server
   async function handleUpdateNotification(id: string) {

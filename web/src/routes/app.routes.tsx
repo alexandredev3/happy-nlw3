@@ -1,10 +1,9 @@
 import React from 'react';
 import { Switch, Route as RouteDom } from 'react-router-dom';
-import Route from './Route';
-/**
- * O SWITCH e opcional.
- * Com o Switch por volta das rotas, ele vai apenas chamar uma rota por vez.
- */
+import RouteApp from './Route.app';
+import RouteRestricted from './Route.restricted';
+
+import { DashboardContext } from '../hooks/DashboardContext';
 
 import Landing from '../screens/Landing';
 import OrphanagesMap from '../screens/OrphanagesMap';
@@ -22,19 +21,21 @@ import Notifications from '../screens/Notifications';
 
 const AppRoutes: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Landing} />
-    <Route path="/signin" exact component={Signin} />
-    <Route path="/signup" component={SignUp} />
-    <Route path="/app" component={OrphanagesMap} isPrivate />
-    <Route path="/notifications" component={Notifications} isPrivate />
-    <Route path="/signin/password/forgot" component={ForgotPassword} />
-    <Route path="/password/reset" component={ResetPassword} />
-    <Route path="/orphanages/create" component={CreateOrphanage} isPrivate />
-    <Route path="/orphanages/:id" component={Orphanage} isPrivate />
-    <Route path="/dashboard/orphanages" exact component={Dashboard} />
-    <Route path="/dashboard/pending-orphanages" exact component={PendingOrphanages} />
-    <Route path="/dashboard/pending-orphanages/details" component={PendingOrphanagesDetails} />
-    <Route path="/dashboard/orphanages/update" component={EditOrphanages} />
+    <RouteApp path="/" exact component={Landing} />
+    <RouteApp path="/signin" exact component={Signin} />
+    <RouteApp path="/signup" component={SignUp} />
+    <RouteApp path="/app" component={OrphanagesMap} isPrivate />
+    <RouteApp path="/notifications" component={Notifications} isPrivate />
+    <RouteApp path="/signin/password/forgot" component={ForgotPassword} />
+    <RouteApp path="/password/reset" component={ResetPassword} />
+    <RouteApp path="/orphanages/create" component={CreateOrphanage} isPrivate />
+    <RouteApp path="/orphanages/:id" component={Orphanage} isPrivate />
+    <DashboardContext>
+      <RouteRestricted path="/dashboard/orphanages" exact component={Dashboard} />
+      <RouteRestricted path="/dashboard/pending-orphanages" exact component={PendingOrphanages} />
+      <RouteRestricted path="/dashboard/pending-orphanages/details" component={PendingOrphanagesDetails} />
+      <RouteRestricted path="/dashboard/orphanages/update" component={EditOrphanages} />
+    </DashboardContext>
   </Switch>
 )
 

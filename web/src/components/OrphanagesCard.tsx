@@ -18,12 +18,17 @@ import mapIcon from '../utils/mapIcon';
 
 interface OrphanagesCardProps {
   isPendingOrphanages?: boolean;
-  // title: string;
-  // latitude: number;
-  // longitude: number;
+  title: string;
+  latitude: string;
+  longitude: string;
 }
 
-const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) => {
+const OrphanagesCard: React.FC<OrphanagesCardProps> = ({
+  isPendingOrphanages,
+  title,
+  latitude,
+  longitude 
+}) => {
   const modalRef = useRef<IModalHandles>(null);
 
   const handleDeleteOrphanage = useCallback(() => {
@@ -38,7 +43,7 @@ const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) 
 
       <MapContent>
         <Map 
-          center={[-16.2476171, -47.9475306]}
+          center={[Number(latitude), Number(longitude)]}
           style={{ width: '100%', height: 200 }}
           zoom={15}
           dragging={false}
@@ -53,13 +58,13 @@ const OrphanagesCard: React.FC<OrphanagesCardProps> = ({ isPendingOrphanages }) 
           <Marker 
             interactive={false} 
             icon={mapIcon} 
-            position={[-16.2476171, -47.9475306]} 
+            position={[Number(latitude), Number(longitude)]} 
           />
         </Map>
       </MapContent>
 
       <Description>
-        <h2>Orf. Esperança</h2>
+        <h2>{ title }</h2>
         <Options>
           { isPendingOrphanages ? (
             <EditButton>

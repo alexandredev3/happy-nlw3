@@ -9,8 +9,11 @@ import {
 
 import Sidebar from '../components/SidebarDeshboard';
 import PendingOrphanagesCard from '../components/OrphanagesCard';
+import { useDashboard } from '../hooks/DashboardContext';
 
-export default function Dashboard() {
+export default function PendingOrphanages() {
+  const { pendingOrphanages, pendingOrphanagesCount } = useDashboard()
+
   return (
     <DashboardPage>
       <Sidebar />
@@ -18,12 +21,23 @@ export default function Dashboard() {
       <Content>
         <Header>
           <h1>Cadastros pendentes</h1>
-          <span>2 orfanatos</span>
+          <span>{ pendingOrphanagesCount } orfanatos</span>
         </Header>
         <Main>
-          <PendingOrphanagesCard isPendingOrphanages />
-          <PendingOrphanagesCard isPendingOrphanages />
-          <PendingOrphanagesCard isPendingOrphanages />
+          { pendingOrphanages?.map(({ 
+            name,
+            latitude,
+            longitude 
+          }) => {
+            return (
+              <PendingOrphanagesCard 
+                isPendingOrphanages 
+                title={name}
+                latitude={latitude}
+                longitude={longitude}
+              />
+            )
+          }) }
         </Main>
       </Content>
     </DashboardPage>

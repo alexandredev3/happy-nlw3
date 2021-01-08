@@ -66,9 +66,9 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const { user, token } = response.data;
 
-    setUserData({ user, token });
-
     api.defaults.headers.Authorization = `Bearer ${token}`;
+
+    setUserData({ user, token });
 
     const dateNow = new Date();
     const expiresIn = new Date(dateNow.setDate(dateNow.getDate() + 3));

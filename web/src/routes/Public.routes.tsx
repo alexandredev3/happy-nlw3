@@ -2,7 +2,8 @@ import React from 'react';
 import { 
   Route as RouteDom,
   RouteProps as RouteDomProps,
-  Redirect
+  Redirect,
+  useLocation
 } from 'react-router-dom';
 
 import { useAuth } from '../hooks/AuthContext';
@@ -12,23 +13,24 @@ interface RouteProps extends RouteDomProps {
   component: React.ComponentType;
 }
 
-const RouteApp: React.FC<RouteProps> = ({ 
+const PublicRoute: React.FC<RouteProps> = ({ 
   isPrivate = false,
   component: Component,
   ...rest
 }) => {
   const { signed } = useAuth();
+  const location = useLocation();
 
   return (
     <RouteDom 
       { ...rest }
       render={({ location }) => {
-        if (isPrivate === signed) {
+        if (!signed) {
           return <Component />
         } else {
           return (
             <Redirect to={{
-              pathname: isPrivate ? '/signin' : '/app',
+              pathname: '/app',
               state: { from: location }
             }} />
           )
@@ -38,4 +40,4 @@ const RouteApp: React.FC<RouteProps> = ({
   )
 }
 
-export default RouteApp;
+export default PublicRoute;

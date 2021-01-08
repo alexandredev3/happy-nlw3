@@ -34,7 +34,7 @@ const RouteRestricted: React.FC<RouteProps> = ({
   return (
     <RouteDom 
       { ...rest }
-      render={() => {
+      render={({ location }) => {
         if (!!pendingOrphanages) {
           return <Component />
         }

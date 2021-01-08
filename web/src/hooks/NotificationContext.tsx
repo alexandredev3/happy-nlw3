@@ -32,7 +32,7 @@ export const NotificationProvider: React.FC = ({ children }) => {
   // perhaps the data is not put into state with socket io.
   // if it doesn't work, try another approach...
   useEffect(() => {
-      api.get('/notifications')
+    api.get('/notifications')
       .then((response) => {
         const { data } = response;
 

@@ -34,6 +34,7 @@ export default function Dashboard() {
             return (
               <RegisteredOrphanages
                 key={id}
+                id={id}
                 title={name}
                 latitude={latitude}
                 longitude={longitude}

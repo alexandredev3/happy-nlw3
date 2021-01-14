@@ -26,12 +26,14 @@ export default function PendingOrphanages() {
         <Main>
           { pendingOrphanages?.map(({ 
             name,
+            id,
             latitude,
             longitude 
           }) => {
             return (
               <PendingOrphanagesCard 
-                isPendingOrphanages 
+                isPendingOrphanages
+                id={id}
                 title={name}
                 latitude={latitude}
                 longitude={longitude}

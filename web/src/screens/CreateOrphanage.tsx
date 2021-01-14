@@ -7,11 +7,13 @@ import { Element, scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
 import mapIcon from '../utils/mapIcon';
+import { orphanageFormValidation, getValidationErrors } from '../utils/orphanageFormValidation';
 
 import Sidebar from "../components/Sidebar";
 import Input from '../components/Input';
 import InputFile from '../components/FileInput';
 import ConfirmButton from '../components/Button';
+import ValidationMapError from '../components/ValidationMapError';
 import ModalRegisterOrphanage, { IModalHandles } from "../components/ModalRegisterOrphanage";
 
 import api from "../services/api";
@@ -24,8 +26,7 @@ import {
   InputBlock,
   Label,
   ButtonSelect,
-  Button,
-  ValidationErrorContainer
+  Button
 } from '../styles/screens/create-orphanage';
 
 interface ICreateOrphanages {
@@ -106,96 +107,11 @@ export default function CreateOrphanage() {
     files.forEach((file) => {
       formData.append('images', file)
     });
-
-    function fileSizeValidation(files: File[]) {
-      let isValid = true;
-
-      if (files) {
-        files.map((file) => {
-          const limitSize = 4 * 1024 * 1024;
-
-          if (file.size > limitSize) {
-            return isValid = false;
-          }
-        })
-      }
-
-      return isValid;
-    }
-
-    function fileTypeValidation(files: File[]) {
-      let isValid = true;
-
-      if (files) {
-        files.map((file) => {
-          const validTypes = ['image/png', 'image/jpg', 'image/jpeg'];
-
-          if (!validTypes.includes(file.type)) {
-            isValid = false;
-          }
-        })
-      }
-
-      return isValid;
-    }
     
     try {
       inputRefs.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup
-          .string()
-          .required('Nome é obrigatório'),
-        whatsapp: Yup
-          .string()
-          .required('Whatsapp é obrigatório'),
-        about: Yup
-          .string()
-          .required('Sobre é obrigatório'),
-        instructions: Yup
-          .string()
-          .required('Instruções é obrigatório'),
-        opening_hours: Yup
-          .string()
-          .required('Horário de funcionamento é obrigatório'),
-        files: Yup
-          .array()
-          .test(
-            'maximum size reached.',
-            'Tamanho máximo é de 4MB.',
-            (value) => fileSizeValidation(value as File[])
-          )
-          .test(
-            'Invalid Type',
-            'Tipo da imagem é invalida.',
-            (value) => fileTypeValidation(value as File[])
-          )
-          .required('Deve ter pelo menos 1 imagem.'),
-        latitude: Yup
-          .number()
-          .required()
-          .test(
-            'no location selected',
-            'latitude must not be 0',
-            (value) => {
-              return value != 0;
-            }
-          ),
-        longitude: Yup
-          .number()
-          .required()
-          .test(
-            'no location selected',
-            'longitude must not be 0',
-            (value) => {
-              return value != 0;
-            }
-          ),
-      })
-
-      await schema.validate(validationData, {
-        abortEarly: false
-      })
+      await orphanageFormValidation(validationData);
 
       setInProgress(true);
 
@@ -205,29 +121,15 @@ export default function CreateOrphanage() {
 
       modalRef.current?.handleOpenModal();
     } catch(err) {
-      const validationErrors: IValidationError = {};
-
-      console.log(err)
-
       if (err instanceof Yup.ValidationError) {
-        err.inner.forEach((error) => {
-          validationErrors[error.path] = error.message;
+        const { validationErrors, markerError } = getValidationErrors(err);
+      
+        console.log(markerError)
 
-          if (error.type === 'no location selected') {
-            scroller.scrollTo('ScrollToMap', {
-              duration: 800,
-              smooth: true
-            });
+        setPositionMarkerError(markerError);
 
-            return setPositionMarkerError(true)
-          }
-
-          setPositionMarkerError(false)
-        });
-    
-        
         return inputRefs.current?.setErrors(validationErrors);
-      }
+      }  
 
       alert("Ocorreu um erro inesperado, Tente novamente mais tarde...");
     }
@@ -271,9 +173,7 @@ export default function CreateOrphanage() {
 
             {
               positionMarkerError && (
-                <ValidationErrorContainer>
-                  <p>Selecione um local no mapa.</p>
-                </ValidationErrorContainer>
+                <ValidationMapError />
               )
             }
 

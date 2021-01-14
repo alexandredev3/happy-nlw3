@@ -15,7 +15,6 @@ import {
   Wrapper,
   Dot
 } from '../styles/components/notification-card';
-import { createFalse } from 'typescript';
 
 interface Props {
   id: string;

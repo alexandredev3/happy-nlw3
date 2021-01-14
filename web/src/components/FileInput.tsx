@@ -62,9 +62,6 @@ const InputFile: React.FC<InputProps> = ({
     }
   }, [preview]);
 
-  // colocar files em um state,
-  // depois tentar passar esse state aqui no registerFiled, no path,
-  // para ter uma opção de excluir a imagem.
   useEffect(() => {
     registerField({
       name: fieldName,

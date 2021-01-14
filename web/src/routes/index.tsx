@@ -36,7 +36,7 @@ const AppRoutes: React.FC = () => (
       <RestrictedRoute path="/dashboard/orphanages" exact component={Dashboard} />
       <RestrictedRoute path="/dashboard/pending-orphanages" exact component={PendingOrphanages} />
       <RestrictedRoute path="/dashboard/pending-orphanages/details" component={PendingOrphanagesDetails} />
-      <RestrictedRoute path="/dashboard/orphanages/update" component={EditOrphanages} />
+      <RestrictedRoute path="/dashboard/orphanages/update/:orphanage_id" component={EditOrphanages} />
     </AppContextPrivate>
   </Switch>
 );

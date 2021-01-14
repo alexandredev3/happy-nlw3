@@ -18,6 +18,7 @@ import mapIcon from '../utils/mapIcon';
 
 interface OrphanagesCardProps {
   isPendingOrphanages?: boolean;
+  id: string;
   title: string;
   latitude: string;
   longitude: string;
@@ -25,6 +26,7 @@ interface OrphanagesCardProps {
 
 const OrphanagesCard: React.FC<OrphanagesCardProps> = ({
   isPendingOrphanages,
+  id,
   title,
   latitude,
   longitude 
@@ -75,7 +77,7 @@ const OrphanagesCard: React.FC<OrphanagesCardProps> = ({
           ) : (
             <>
               <EditButton>
-                <Link to="orphanages/update">
+                <Link to={`orphanages/update/${id}`}>
                   <FiEdit3 color="#15C3D6" size={22} />
                 </Link>
               </EditButton>

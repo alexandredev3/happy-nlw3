@@ -63,7 +63,6 @@ export const DashboardProvider: React.FC = ({ children }) => {
       });
   }, []);
 
-
   return (
     <DashboardContext.Provider 
       value={{
